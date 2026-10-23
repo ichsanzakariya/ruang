@@ -34,14 +34,14 @@
   };
 
   const compact = window.innerWidth < 680;
-  createStars(document.querySelector("#stars"), compact ? 115 : 210, 70);
-  createStars(document.querySelector("#ctaStars"), compact ? 32 : 58, 100);
+  createStars(document.querySelector("#stars"), compact ? 80 : 150, 70);
+  createStars(document.querySelector("#ctaStars"), compact ? 24 : 40, 100);
 
   const fireflyField = document.querySelector("#fireflies");
 
   if (fireflyField && !prefersReducedMotion) {
     const fragment = document.createDocumentFragment();
-    const totalFireflies = compact ? 10 : 17;
+    const totalFireflies = compact ? 8 : 12;
 
     for (let index = 0; index < totalFireflies; index += 1) {
       const firefly = document.createElement("span");
@@ -72,37 +72,57 @@
   const topbar = document.querySelector("#topbar");
   const navLinks = Array.from(document.querySelectorAll(".nav__link"));
   const navSections = navLinks
-    .map((link) => document.querySelector(link.getAttribute("href")))
+    .map((link) => {
+      const href = link.getAttribute("href");
+      return href && href.length > 1 && href.startsWith("#")
+        ? document.getElementById(href.slice(1))
+        : null;
+    })
     .filter(Boolean);
 
   let frameRequested = false;
   let lastProgress = -1;
+  let lastScrolled = null;
+  let activeNavId = "";
 
   const updateScrollUI = () => {
     frameRequested = false;
-    topbar?.classList.toggle("is-scrolled", window.scrollY > 26);
 
-    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0;
+    const scrollY = window.scrollY;
+    const viewportHeight = window.innerHeight;
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrolled = scrollY > 26;
+    const scrollable = scrollHeight - viewportHeight;
+    const progress = scrollable > 0 ? Math.min(scrollY / scrollable, 1) : 0;
+
+    let active = null;
+
+    if (navSections.length) {
+      const probe = scrollY + viewportHeight * 0.34;
+      active = navSections[0];
+
+      navSections.forEach((section) => {
+        if (section.offsetTop <= probe) active = section;
+      });
+
+      if (viewportHeight + scrollY >= scrollHeight - 6) {
+        active = navSections[navSections.length - 1];
+      }
+    }
+
+    if (scrolled !== lastScrolled) {
+      lastScrolled = scrolled;
+      topbar?.classList.toggle("is-scrolled", scrolled);
+    }
 
     if (progress !== lastProgress) {
       lastProgress = progress;
       root.style.setProperty("--scroll-progress", progress.toFixed(4));
     }
 
-    if (!navSections.length) return;
+    if (!active || active.id === activeNavId) return;
 
-    const probe = window.scrollY + window.innerHeight * 0.34;
-    let active = navSections[0];
-
-    navSections.forEach((section) => {
-      if (section.offsetTop <= probe) active = section;
-    });
-
-    const atBottom =
-      window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 6;
-
-    if (atBottom) active = navSections[navSections.length - 1];
+    activeNavId = active.id;
 
     navLinks.forEach((link) => {
       const isActive = link.getAttribute("href") === `#${active.id}`;
@@ -124,6 +144,9 @@
 
   window.addEventListener("scroll", requestScrollUpdate, { passive: true });
   window.addEventListener("resize", requestScrollUpdate, { passive: true });
+  window.addEventListener("load", requestScrollUpdate, { passive: true });
+  window.addEventListener("pageshow", requestScrollUpdate);
+  document.fonts?.ready.then(requestScrollUpdate);
   updateScrollUI();
 
   /* ---------- Mobile menu ---------- */
@@ -344,6 +367,8 @@
 
     if (roomCount) roomCount.textContent = String(visible);
 
+    requestScrollUpdate();
+
     if (prefersReducedMotion) return;
 
     roomCards.forEach((card) => {
@@ -406,6 +431,7 @@
       faqItems.forEach((other) => {
         if (other !== item) other.open = false;
       });
+      requestScrollUpdate();
     });
   });
 

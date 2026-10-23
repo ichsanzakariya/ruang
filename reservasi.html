@@ -50,16 +50,16 @@
   </svg>
 
   <header class="topbar" id="topbar">
-    <a class="brand" href="index.html" aria-label="Ruang, kembali ke beranda">
+    <a class="brand" href="/" aria-label="Ruang, kembali ke beranda">
       Ruang<span class="brand__mark">®</span>
     </a>
 
     <nav class="nav" aria-label="Navigasi utama">
-      <a class="nav__link" href="index.html#beranda" data-nav="beranda">Beranda</a>
-      <a class="nav__link" href="index.html#tentang" data-nav="tentang">Tentang</a>
-      <a class="nav__link" href="index.html#ruang" data-nav="ruang">Ruang</a>
-      <a class="nav__link" href="index.html#jadwal" data-nav="jadwal">Jadwal</a>
-      <a class="nav__link" href="index.html#kontak" data-nav="kontak">Kontak</a>
+      <a class="nav__link" href="/#beranda" data-nav="beranda">Beranda</a>
+      <a class="nav__link" href="/#tentang" data-nav="tentang">Tentang</a>
+      <a class="nav__link" href="/#ruang" data-nav="ruang">Ruang</a>
+      <a class="nav__link" href="/#jadwal" data-nav="jadwal">Jadwal</a>
+      <a class="nav__link" href="/#kontak" data-nav="kontak">Kontak</a>
     </nav>
 
     <div class="topbar__actions">
@@ -73,11 +73,11 @@
 
   <div class="mobile-menu" id="mobileMenu" aria-hidden="true" inert>
     <nav class="mobile-menu__nav" aria-label="Navigasi seluler">
-      <a href="index.html#beranda">Beranda</a>
-      <a href="index.html#tentang">Tentang</a>
-      <a href="index.html#ruang">Ruang</a>
-      <a href="index.html#jadwal">Jadwal</a>
-      <a href="index.html#kontak">Kontak</a>
+      <a href="/#beranda">Beranda</a>
+      <a href="/#tentang">Tentang</a>
+      <a href="/#ruang">Ruang</a>
+      <a href="/#jadwal">Jadwal</a>
+      <a href="/#kontak">Kontak</a>
     </nav>
     <div class="mobile-menu__foot">
       <a class="btn btn--light" href="#tanggal">Reservasi</a>
@@ -90,7 +90,7 @@
       <div class="book-hero__glow" aria-hidden="true"></div>
       <div class="container">
         <nav class="crumbs" aria-label="Breadcrumb">
-          <a href="index.html">Beranda</a>
+          <a href="/">Beranda</a>
           <span aria-hidden="true">/</span>
           <span aria-current="page">Reservasi</span>
         </nav>
@@ -103,12 +103,12 @@
         </p>
 
         <div class="room-switch" role="group" aria-label="Ganti ruang">
-          <a class="room-chip is-active" data-slug="aria" href="reservasi.html?ruang=aria" aria-current="true">Aria</a>
-          <a class="room-chip" data-slug="nusa" href="reservasi.html?ruang=nusa">Nusa</a>
-          <a class="room-chip" data-slug="sunyi" href="reservasi.html?ruang=sunyi">Sunyi</a>
-          <a class="room-chip" data-slug="cakra" href="reservasi.html?ruang=cakra">Cakra</a>
-          <a class="room-chip" data-slug="loka" href="reservasi.html?ruang=loka">Loka</a>
-          <a class="room-chip" data-slug="sabha" href="reservasi.html?ruang=sabha">Sabha</a>
+          <a class="room-chip is-active" data-slug="aria" href="/reservasi?ruang=aria" aria-current="true">Aria</a>
+          <a class="room-chip" data-slug="nusa" href="/reservasi?ruang=nusa">Nusa</a>
+          <a class="room-chip" data-slug="sunyi" href="/reservasi?ruang=sunyi">Sunyi</a>
+          <a class="room-chip" data-slug="cakra" href="/reservasi?ruang=cakra">Cakra</a>
+          <a class="room-chip" data-slug="loka" href="/reservasi?ruang=loka">Loka</a>
+          <a class="room-chip" data-slug="sabha" href="/reservasi?ruang=sabha">Sabha</a>
         </div>
       </div>
     </section>
@@ -227,19 +227,19 @@
               <div class="form-grid">
                 <div class="field field--full">
                   <label for="nama">Nama lengkap</label>
-                  <input id="nama" name="nama" type="text" autocomplete="name" placeholder="Nama sesuai kartu mahasiswa" aria-describedby="err-nama" required>
+                  <input id="nama" name="nama" type="text" autocomplete="name" maxlength="80" placeholder="Nama sesuai kartu mahasiswa" aria-describedby="err-nama" required>
                   <p class="field__error" id="err-nama" hidden></p>
                 </div>
 
                 <div class="field">
                   <label for="nim">NIM atau NIDN</label>
-                  <input id="nim" name="nim" type="text" inputmode="numeric" autocomplete="off" placeholder="Contoh: 22100432" aria-describedby="err-nim" required>
+                  <input id="nim" name="nim" type="text" inputmode="numeric" autocomplete="off" maxlength="15" placeholder="Contoh: 22100432" aria-describedby="err-nim" required>
                   <p class="field__error" id="err-nim" hidden></p>
                 </div>
 
                 <div class="field">
                   <label for="email">Email kampus</label>
-                  <input id="email" name="email" type="email" autocomplete="email" placeholder="nama@kampus.ac.id" aria-describedby="err-email" required>
+                  <input id="email" name="email" type="email" autocomplete="email" maxlength="120" placeholder="nama@kampus.ac.id" aria-describedby="err-email" required>
                   <p class="field__error" id="err-email" hidden></p>
                 </div>
 
@@ -254,7 +254,7 @@
 
                 <div class="field field--full">
                   <label for="agenda">Agenda atau tujuan</label>
-                  <textarea id="agenda" name="agenda" rows="3" placeholder="Contoh: Diskusi kelompok mata kuliah Riset Pasar" aria-describedby="err-agenda" required></textarea>
+                  <textarea id="agenda" name="agenda" rows="3" maxlength="500" placeholder="Contoh: Diskusi kelompok mata kuliah Riset Pasar" aria-describedby="err-agenda" required></textarea>
                   <p class="field__error" id="err-agenda" hidden></p>
                 </div>
               </div>
@@ -386,8 +386,8 @@
           </dl>
 
           <div class="success__actions">
-            <a class="btn btn--ink" href="index.html">Kembali ke beranda</a>
-            <a class="btn btn--outline" href="index.html#jadwal">Lihat jadwal langsung</a>
+            <a class="btn btn--ink" href="/">Kembali ke beranda</a>
+            <a class="btn btn--outline" href="/#jadwal">Lihat jadwal langsung</a>
             <button class="success__again" type="button" id="againBtn">Buat reservasi lain</button>
           </div>
         </section>
@@ -415,7 +415,7 @@
     <div class="container footer__main">
       <div class="footer__grid" data-stagger>
         <div class="footer__brand reveal">
-          <a class="brand" href="index.html" aria-label="Ruang, kembali ke beranda">Ruang<span class="brand__mark">®</span></a>
+          <a class="brand" href="/" aria-label="Ruang, kembali ke beranda">Ruang<span class="brand__mark">®</span></a>
           <p>Pesan ruang kampus tanpa ribet. Satu portal untuk semua ruang di kampus.</p>
           <div class="footer__status"><span></span>Semua sistem normal</div>
           <div class="socials">
@@ -427,16 +427,16 @@
 
         <nav class="footer__col reveal" aria-label="Jelajahi">
           <h3>Jelajahi</h3>
-          <a href="index.html#beranda">Beranda</a>
-          <a href="index.html#tentang">Tentang</a>
-          <a href="index.html#ruang">Ruang</a>
-          <a href="index.html#jadwal">Jadwal</a>
+          <a href="/#beranda">Beranda</a>
+          <a href="/#tentang">Tentang</a>
+          <a href="/#ruang">Ruang</a>
+          <a href="/#jadwal">Jadwal</a>
         </nav>
 
         <nav class="footer__col reveal" aria-label="Bantuan">
           <h3>Bantuan</h3>
-          <a href="index.html#faq">Pertanyaan umum</a>
-          <a href="index.html#cara-kerja">Panduan reservasi</a>
+          <a href="/#faq">Pertanyaan umum</a>
+          <a href="/#cara-kerja">Panduan reservasi</a>
           <a href="mailto:halo@ruang.kampus.ac.id">Hubungi kami</a>
         </nav>
 
@@ -455,7 +455,7 @@
     </div>
   </footer>
 
-  <script src="script.js?v=20261023p"></script>
-  <script src="reservasi.js?v=20261023z20"></script>
+  <script src="script.js?v=20261024c"></script>
+  <script src="reservasi.js?v=20261024c"></script>
 </body>
 </html>

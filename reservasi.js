@@ -82,12 +82,11 @@
 
   const OPEN_HOUR = 8;
   const CLOSE_HOUR = 18;
-  const MAX_DURATION = 4;
   const JAKARTA_TIME_ZONE = "Asia/Jakarta";
   const DAY_MS = 24 * 60 * 60 * 1000;
 
   const params = new URLSearchParams(window.location.search);
-  let slug = (params.get("ruang") || "aria").toLowerCase();
+  let slug = (params.get("ruang") || "aria").trim().toLowerCase();
 
   if (!Object.prototype.hasOwnProperty.call(ROOMS, slug)) {
     slug = "aria";
@@ -176,18 +175,32 @@
     hourCycle: "h23"
   });
 
-  const todayParts = readParts(jakartaDateFormatter);
-  const todayUtc = Date.UTC(
-    Number(todayParts.year),
-    Number(todayParts.month) - 1,
-    Number(todayParts.day),
-    5,
-    0,
-    0
-  );
+  const dateKey = (date) => {
+    const parts = readParts(jakartaDateFormatter, date);
+    return `${parts.year}-${parts.month}-${parts.day}`;
+  };
 
   /* 05.00 UTC is 12.00 WIB, safely inside the Jakarta calendar day. */
-  const days = Array.from({ length: 7 }, (_, index) => new Date(todayUtc + index * DAY_MS));
+  const buildDayWindow = () => {
+    const parts = readParts(jakartaDateFormatter);
+    const start = Date.UTC(
+      Number(parts.year),
+      Number(parts.month) - 1,
+      Number(parts.day),
+      5,
+      0,
+      0
+    );
+
+    return {
+      start,
+      days: Array.from({ length: 7 }, (_, index) => new Date(start + index * DAY_MS))
+    };
+  };
+
+  const initialDayWindow = buildDayWindow();
+  let dayWindowStart = initialDayWindow.start;
+  let days = initialDayWindow.days;
 
   const getJakartaMinutes = () => {
     const clock = readParts(jakartaClockFormatter);
@@ -195,8 +208,11 @@
   };
 
   /* After the last possible start time, today has no usable slots left. */
+  const defaultDayIndex = () =>
+    getJakartaMinutes() >= (CLOSE_HOUR - 1) * 60 ? 1 : 0;
+
   const state = {
-    day: getJakartaMinutes() >= (CLOSE_HOUR - 1) * 60 ? 1 : 0,
+    day: defaultDayIndex(),
     start: null,
     duration: 2
   };
@@ -204,8 +220,12 @@
   let isBooked = false;
   let successFocusTimer = 0;
 
+  const bookedSlots = new Set();
+
   const isPastSlot = (hour, nowMinutes = getJakartaMinutes()) =>
     state.day === 0 && hour * 60 <= nowMinutes;
+
+  const isPastDay = (dayIndex) => dateKey(days[dayIndex]) < dateKey(new Date());
 
   const fmtFull = new Intl.DateTimeFormat("id-ID", {
     timeZone: JAKARTA_TIME_ZONE,
@@ -227,13 +247,24 @@
   const clean = (value) => value.replace(/\./g, "");
   const fmtHour = (hour) => `${String(hour).padStart(2, "0")}.00`;
 
+  const slotKey = (roomSlug, dayIndex, hour) =>
+    `${roomSlug}|${dateKey(days[dayIndex])}|${hour}`;
+
   const busyFor = (roomSlug, dayIndex) => {
     const base = ROOMS[roomSlug].busy;
-
-    if (dayIndex === 0) return new Set(base);
-
     const shift = (dayIndex * 3 + roomSlug.length) % 10;
-    return new Set(base.map((hour) => OPEN_HOUR + ((hour - OPEN_HOUR + shift) % 10)));
+    const busy =
+      dayIndex === 0
+        ? new Set(base)
+        : new Set(
+            base.map((hour) => OPEN_HOUR + ((hour - OPEN_HOUR + shift) % 10))
+          );
+
+    for (let hour = OPEN_HOUR; hour < CLOSE_HOUR; hour += 1) {
+      if (bookedSlots.has(slotKey(roomSlug, dayIndex, hour))) busy.add(hour);
+    }
+
+    return busy;
   };
 
   const blockReason = (start, busy, duration) => {
@@ -470,6 +501,39 @@
     els.slotEmpty.hidden = available > 0;
   };
 
+  const refreshDayWindow = () => {
+    const nextWindow = buildDayWindow();
+
+    if (nextWindow.start === dayWindowStart) return false;
+
+    const selectedKey = dateKey(days[state.day]);
+    const hadDateFocus = els.dateGrid.contains(document.activeElement);
+    const hadSlotFocus = els.slotGrid.contains(document.activeElement);
+
+    dayWindowStart = nextWindow.start;
+    days = nextWindow.days;
+
+    const preserved = days.findIndex((date) => dateKey(date) === selectedKey);
+    state.day = preserved >= 0 ? preserved : defaultDayIndex();
+    state.start = null;
+
+    renderDates();
+    renderSlots();
+    updateSummary();
+    setHint("Tanggal diperbarui. Pilih jam mulai lagi.", false);
+
+    const activeDate = els.dateGrid.querySelector('.date-chip[aria-pressed="true"]');
+
+    if (hadDateFocus) {
+      activeDate?.focus({ preventScroll: true });
+    } else if (hadSlotFocus) {
+      const firstSlot = els.slotGrid.querySelector(".slot:not(:disabled)");
+      (firstSlot || activeDate)?.focus({ preventScroll: true });
+    }
+
+    return true;
+  };
+
   /* ---------- Duration ---------- */
 
   $$(".duration__btn").forEach((button) => {
@@ -589,22 +653,30 @@
     }
   };
 
+  const syncAlert = () => {
+    const count = $$(".field__error:not([hidden])").length;
+
+    if (!count) {
+      els.alert.hidden = true;
+      return;
+    }
+
+    if (els.alert.hidden) return;
+
+    const message = `Ada ${count} bagian yang perlu diperbaiki. Periksa kolom bertanda.`;
+    if (els.alert.textContent !== message) els.alert.textContent = message;
+  };
+
   Object.entries(fieldElements).forEach(([name, input]) => {
     input.addEventListener("input", () => {
       clearError(name);
-
-      if (!document.querySelector(".field__error:not([hidden])")) {
-        els.alert.hidden = true;
-      }
+      syncAlert();
     });
   });
 
   els.setuju?.addEventListener("change", () => {
     clearError("setuju");
-
-    if (!document.querySelector(".field__error:not([hidden])")) {
-      els.alert.hidden = true;
-    }
+    syncAlert();
   });
   els.peserta?.addEventListener("input", updateSummary);
 
@@ -646,6 +718,10 @@
     const room = ROOMS[slug];
     const people = Number(els.peserta.value);
 
+    for (let hour = state.start; hour < state.start + state.duration; hour += 1) {
+      bookedSlots.add(slotKey(slug, state.day, hour));
+    }
+
     isBooked = true;
     els.successRoom.textContent = room.name;
     els.successPlace.textContent = `${room.name} · ${room.place}`;
@@ -680,6 +756,9 @@
   els.form.addEventListener("submit", (event) => {
     event.preventDefault();
 
+    const dateWasPast = isPastDay(state.day);
+    if (dateWasPast) refreshDayWindow();
+
     if (state.start === null || isPastSlot(state.start)) {
       if (state.start !== null) {
         state.start = null;
@@ -687,12 +766,18 @@
         updateSummary();
       }
 
-      els.summaryNote.textContent = "Pilih tanggal dan jam mulai dulu, ya.";
+      els.summaryNote.textContent = dateWasPast
+        ? "Tanggal yang dipilih sudah lewat. Pilih tanggal baru, ya."
+        : "Pilih tanggal dan jam mulai dulu, ya.";
       els.summaryNote.classList.add("is-warn");
       setHint("Belum ada jam yang dipilih.", false);
 
       const firstSlot = els.slotGrid.querySelector(".slot:not(:disabled)");
-      (firstSlot || els.dateGrid.querySelector(".date-chip"))?.focus();
+      const activeDate =
+        els.dateGrid.querySelector('.date-chip[aria-pressed="true"]') ||
+        els.dateGrid.querySelector(".date-chip");
+      const focusTarget = dateWasPast ? activeDate : firstSlot || activeDate;
+      focusTarget?.focus();
       return;
     }
 
@@ -757,6 +842,14 @@
       els.again.click();
     });
   });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") refreshDayWindow();
+  });
+
+  window.setInterval(() => {
+    if (document.visibilityState === "visible") refreshDayWindow();
+  }, 60000);
 
   /* ---------- Boot ---------- */
 
