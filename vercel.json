@@ -3,6 +3,48 @@
   "framework": null,
   "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/beranda",
+      "destination": "/"
+    },
+    {
+      "source": "/tentang",
+      "destination": "/"
+    },
+    {
+      "source": "/ruang",
+      "destination": "/"
+    },
+    {
+      "source": "/cara-kerja",
+      "destination": "/"
+    },
+    {
+      "source": "/jadwal",
+      "destination": "/"
+    },
+    {
+      "source": "/faq",
+      "destination": "/"
+    },
+    {
+      "source": "/mulai",
+      "destination": "/"
+    },
+    {
+      "source": "/kontak",
+      "destination": "/"
+    },
+    {
+      "source": "/reservasi/tanggal",
+      "destination": "/reservasi"
+    },
+    {
+      "source": "/reservasi/kontak",
+      "destination": "/reservasi"
+    }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",

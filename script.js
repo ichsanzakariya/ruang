@@ -71,12 +71,45 @@
 
   const topbar = document.querySelector("#topbar");
   const navLinks = Array.from(document.querySelectorAll(".nav__link"));
+  const isBookingPage = Boolean(document.getElementById("tanggal"));
+
+  const sectionRoutes = new Map(
+    isBookingPage
+      ? [
+          ["atas", "/reservasi"],
+          ["tanggal", "/reservasi/tanggal"],
+          ["kontak", "/reservasi/kontak"]
+        ]
+      : [
+          ["beranda", "/"],
+          ["tentang", "/tentang"],
+          ["ruang", "/ruang"],
+          ["cara-kerja", "/cara-kerja"],
+          ["jadwal", "/jadwal"],
+          ["faq", "/faq"],
+          ["reservasi", "/mulai"],
+          ["kontak", "/kontak"]
+        ]
+  );
+
+  const normalizePath = (path) => path.replace(/\/+$/, "") || "/";
+  const routeToSection = new Map(
+    Array.from(sectionRoutes.entries()).map(([id, path]) => [path, id])
+  );
+
+  if (!isBookingPage) routeToSection.set("/beranda", "beranda");
+
+  const pageSections = Array.from(sectionRoutes.keys())
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
   const navSections = navLinks
     .map((link) => {
-      const href = link.getAttribute("href");
-      return href && href.length > 1 && href.startsWith("#")
-        ? document.getElementById(href.slice(1))
-        : null;
+      const url = new URL(link.href, window.location.href);
+
+      if (url.origin !== window.location.origin) return null;
+
+      const id = routeToSection.get(normalizePath(url.pathname));
+      return id ? document.getElementById(id) : null;
     })
     .filter(Boolean);
 
@@ -84,6 +117,106 @@
   let lastProgress = -1;
   let lastScrolled = null;
   let activeNavId = "";
+
+  const findSectionAtProbe = (sections, scrollY, viewportHeight, scrollHeight) => {
+    const visible = sections.filter((section) => section.offsetParent !== null);
+
+    if (!visible.length) return null;
+
+    const probe = scrollY + viewportHeight * 0.34;
+    let active = visible[0];
+
+    visible.forEach((section) => {
+      if (section.getBoundingClientRect().top + scrollY <= probe) {
+        active = section;
+      }
+    });
+
+    if (scrollY + viewportHeight >= scrollHeight - 6) {
+      active = visible[visible.length - 1];
+    }
+
+    return active;
+  };
+
+  const replacePath = (path, sectionId) => {
+    const target = `${path}${window.location.search}`;
+
+    if (
+      window.location.pathname + window.location.search + window.location.hash ===
+      target
+    ) {
+      return;
+    }
+
+    try {
+      window.history.replaceState({ section: sectionId }, "", target);
+    } catch {
+      /* History API can be unavailable in local previews. */
+    }
+  };
+
+  const updateRoute = (section) => {
+    const path = sectionRoutes.get(section.id);
+    if (path) replacePath(path, section.id);
+  };
+
+  const scrollToSection = (sectionId, smooth = true) => {
+    const target = sectionId === "atas" ? null : document.getElementById(sectionId);
+    const behavior = smooth && !prefersReducedMotion ? "smooth" : "auto";
+
+    if (target && target.offsetParent === null) return;
+
+    if (!target) {
+      if (behavior === "auto") {
+        const previous = root.style.scrollBehavior;
+        root.style.scrollBehavior = "auto";
+        window.scrollTo(0, 0);
+        root.style.scrollBehavior = previous;
+      } else {
+        window.scrollTo({ top: 0, behavior });
+      }
+      return;
+    }
+
+    if (behavior === "auto") {
+      const previous = root.style.scrollBehavior;
+      root.style.scrollBehavior = "auto";
+      target.scrollIntoView({ behavior: "auto", block: "start" });
+      root.style.scrollBehavior = previous;
+      return;
+    }
+
+    target.scrollIntoView({ behavior, block: "start" });
+  };
+
+  const initialHash = window.location.hash.slice(1);
+  const hashSection =
+    initialHash && sectionRoutes.has(initialHash) ? initialHash : null;
+  const initialSection =
+    hashSection ||
+    routeToSection.get(normalizePath(window.location.pathname)) ||
+    null;
+
+  if (initialHash) {
+    const cleanPath = hashSection
+      ? sectionRoutes.get(hashSection)
+      : normalizePath(window.location.pathname);
+    replacePath(cleanPath, hashSection || initialSection || "");
+  }
+
+  if ("scrollRestoration" in window.history) {
+    window.history.scrollRestoration = "manual";
+  }
+
+  if (initialSection) {
+    scrollToSection(initialSection, false);
+  }
+
+  let initialScrollActive = Boolean(initialSection);
+  const cancelInitialScroll = () => {
+    initialScrollActive = false;
+  };
 
   const updateScrollUI = () => {
     frameRequested = false;
@@ -94,21 +227,18 @@
     const scrolled = scrollY > 26;
     const scrollable = scrollHeight - viewportHeight;
     const progress = scrollable > 0 ? Math.min(scrollY / scrollable, 1) : 0;
-
-    let active = null;
-
-    if (navSections.length) {
-      const probe = scrollY + viewportHeight * 0.34;
-      active = navSections[0];
-
-      navSections.forEach((section) => {
-        if (section.offsetTop <= probe) active = section;
-      });
-
-      if (viewportHeight + scrollY >= scrollHeight - 6) {
-        active = navSections[navSections.length - 1];
-      }
-    }
+    const navActive = findSectionAtProbe(
+      navSections,
+      scrollY,
+      viewportHeight,
+      scrollHeight
+    );
+    const pageActive = findSectionAtProbe(
+      pageSections,
+      scrollY,
+      viewportHeight,
+      scrollHeight
+    );
 
     if (scrolled !== lastScrolled) {
       lastScrolled = scrolled;
@@ -120,12 +250,14 @@
       root.style.setProperty("--scroll-progress", progress.toFixed(4));
     }
 
-    if (!active || active.id === activeNavId) return;
+    if (pageActive) updateRoute(pageActive);
 
-    activeNavId = active.id;
+    if (!navActive || navActive.id === activeNavId) return;
+
+    activeNavId = navActive.id;
 
     navLinks.forEach((link) => {
-      const isActive = link.getAttribute("href") === `#${active.id}`;
+      const isActive = link.dataset.nav === navActive.id;
       link.classList.toggle("is-active", isActive);
 
       if (isActive) {
@@ -142,11 +274,104 @@
     window.requestAnimationFrame(updateScrollUI);
   };
 
-  window.addEventListener("scroll", requestScrollUpdate, { passive: true });
+  document.querySelectorAll("a[href]").forEach((link) => {
+    const href = link.getAttribute("href");
+
+    if (!href || href.startsWith("#")) return;
+
+    const url = new URL(link.href, window.location.href);
+
+    if (url.origin !== window.location.origin) return;
+    if (url.search && url.search !== window.location.search) return;
+
+    const sectionId = routeToSection.get(normalizePath(url.pathname));
+    if (!sectionId) return;
+
+    link.addEventListener("click", (event) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      cancelInitialScroll();
+
+      const nextPath = normalizePath(url.pathname);
+      const search = url.search || window.location.search;
+
+      if (
+        window.location.pathname !== nextPath ||
+        window.location.search !== search
+      ) {
+        try {
+          window.history.pushState(
+            { section: sectionId },
+            "",
+            `${nextPath}${search}`
+          );
+        } catch {
+          /* If history is unavailable, scroll without changing the URL. */
+        }
+      }
+
+      scrollToSection(sectionId, true);
+    });
+  });
+
+  window.addEventListener("popstate", () => {
+    cancelInitialScroll();
+
+    const sectionId = routeToSection.get(normalizePath(window.location.pathname));
+
+    if (sectionId) scrollToSection(sectionId, false);
+
+    requestScrollUpdate();
+  });
+
+  ["pointerdown", "keydown", "wheel", "touchstart"].forEach((eventName) => {
+    window.addEventListener(eventName, cancelInitialScroll, {
+      passive: true,
+      once: true
+    });
+  });
+
+  const correctInitialScroll = () => {
+    if (!initialScrollActive || !initialSection) return;
+
+    const currentSection = routeToSection.get(
+      normalizePath(window.location.pathname)
+    );
+
+    if (currentSection !== initialSection) {
+      cancelInitialScroll();
+      return;
+    }
+
+    scrollToSection(initialSection, false);
+    requestScrollUpdate();
+  };
+
+  window.addEventListener(
+    "load",
+    () => {
+      correctInitialScroll();
+      requestScrollUpdate();
+    },
+    { passive: true }
+  );
   window.addEventListener("resize", requestScrollUpdate, { passive: true });
-  window.addEventListener("load", requestScrollUpdate, { passive: true });
+  window.addEventListener("scroll", requestScrollUpdate, { passive: true });
   window.addEventListener("pageshow", requestScrollUpdate);
-  document.fonts?.ready.then(requestScrollUpdate);
+  document.fonts?.ready.then(() => {
+    correctInitialScroll();
+    requestScrollUpdate();
+  });
   updateScrollUI();
 
   /* ---------- Mobile menu ---------- */

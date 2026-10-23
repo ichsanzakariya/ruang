@@ -7,7 +7,7 @@
       status: "free",
       statusLabel: "Tersedia",
       capacity: 6,
-      img: "assets/img/study.jpg",
+      img: "/assets/img/study.jpg",
       alt: "Ruang diskusi Aria dengan jendela lebar dan meja panjang",
       desc: "Meja bundar, layar 55 inci, dan papan tulis untuk diskusi kelompok.",
       facilities: ["Wi-Fi", "Layar 55 inci", "Papan tulis", "Stop kontak", "AC"],
@@ -20,7 +20,7 @@
       status: "free",
       statusLabel: "Tersedia",
       capacity: 12,
-      img: "assets/img/collab.jpg",
+      img: "/assets/img/collab.jpg",
       alt: "Mahasiswa berdiskusi bersama di meja kolaborasi Nusa",
       desc: "Meja modular dan area presentasi untuk kerja tim lintas disiplin.",
       facilities: ["Wi-Fi", "Layar 65 inci", "Papan tulis", "Meja modular", "Stop kontak"],
@@ -33,7 +33,7 @@
       status: "limited",
       statusLabel: "Terbatas",
       capacity: 1,
-      img: "assets/img/workspace.jpg",
+      img: "/assets/img/workspace.jpg",
       alt: "Meja fokus Sunyi dengan komputer dan pemandangan kota",
       desc: "Kubikel tenang dengan meja ergonomis dan lampu baca personal.",
       facilities: ["Wi-Fi", "Monitor 24 inci", "Lampu baca", "Stop kontak", "Kubikel kedap suara"],
@@ -46,7 +46,7 @@
       status: "free",
       statusLabel: "Tersedia",
       capacity: 4,
-      img: "assets/img/meeting.jpg",
+      img: "/assets/img/meeting.jpg",
       alt: "Ruang bimbingan Cakra dengan partisi kaca dan pencahayaan hangat",
       desc: "Ruang privat untuk bimbingan skripsi dan konsultasi akademik.",
       facilities: ["Wi-Fi", "Layar 43 inci", "Papan tulis", "Meja privat", "Stop kontak"],
@@ -59,7 +59,7 @@
       status: "free",
       statusLabel: "Tersedia",
       capacity: 8,
-      img: "assets/img/lounge.jpg",
+      img: "/assets/img/lounge.jpg",
       alt: "Studio kreatif Loka dengan sofa, meja kerja, dan cahaya alami",
       desc: "Area fleksibel untuk riset visual, rekaman, dan kerja kreatif.",
       facilities: ["Wi-Fi", "Monitor", "Audio", "Papan ide", "Stop kontak"],
@@ -72,7 +72,7 @@
       status: "free",
       statusLabel: "Tersedia",
       capacity: 120,
-      img: "assets/img/auditorium.jpg",
+      img: "/assets/img/auditorium.jpg",
       alt: "Aula serbaguna Sabha dengan deretan kursi dan panggung",
       desc: "Aula serbaguna dengan tata suara dan proyektor untuk acara kampus.",
       facilities: ["Wi-Fi", "Proyektor", "Tata suara", "Panggung", "Kursi 120"],
@@ -96,7 +96,7 @@
       window.history.replaceState(
         null,
         "",
-        `${window.location.pathname}?${params.toString()}${window.location.hash}`
+        `${window.location.pathname}?${params.toString()}`
       );
     } catch (error) {
       /* History API can be unavailable on file:// previews. */
@@ -834,7 +834,7 @@
     });
   });
 
-  $$('a[href="#tanggal"]').forEach((link) => {
+  $$('a[href="/reservasi/tanggal"]').forEach((link) => {
     link.addEventListener("click", (event) => {
       if (els.success.hidden) return;
 
