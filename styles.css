@@ -3372,6 +3372,10 @@ html:not(.js) .topbar {
     border-top: 0;
   }
 
+  .steps::before {
+    display: none;
+  }
+
   .step {
     padding: 28px 0 28px;
     border-top: 1px solid var(--line-dark);
@@ -3392,8 +3396,13 @@ html:not(.js) .topbar {
     gap: 22px;
   }
 
-  .step__num {
-    order: -1;
+  /* Keep the step marks in markup order: figure, then number, then heading. */
+  .step__top > .step__icon {
+    order: 0;
+  }
+
+  .step__top > .step__num {
+    order: 1;
     min-width: 44px;
     font-size: 2.2rem;
   }
@@ -3431,6 +3440,24 @@ html:not(.js) .topbar {
   .stat:nth-child(odd) {
     padding-left: 0;
     border-left: 0;
+  }
+
+  .stat:nth-child(1)::before,
+  .stat:nth-child(3)::before {
+    left: 0;
+  }
+
+  .stat:nth-child(4)::before {
+    left: 28px;
+  }
+
+  .stat:nth-child(1).is-visible::before,
+  .stat:nth-child(3).is-visible::before {
+    width: 100%;
+  }
+
+  .stat:nth-child(4).is-visible::before {
+    width: calc(100% - 28px);
   }
 
   .footer__grid {
@@ -3564,6 +3591,7 @@ html:not(.js) .topbar {
 
   .stat {
     align-items: baseline;
+    min-height: 92px;
     padding: 19px 0;
     border-top: 1px solid rgba(236, 246, 252, 0.09);
     border-left: 0;
@@ -3581,8 +3609,14 @@ html:not(.js) .topbar {
     border-top: 0;
   }
 
+  .stat:first-child.is-visible::before {
+    width: 100%;
+  }
+
   .stat__value {
+    min-width: 0;
     font-size: 2.5rem;
+    overflow: visible;
   }
 
   .stat__label {
