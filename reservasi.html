@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservasi ruang · Ruang</title>
+  <meta name="description" content="Pilih ruang, tanggal, dan jam. Konfirmasi reservasi ruang kampus langsung di portal Ruang tanpa antre dan tanpa benturan jadwal.">
+  <meta name="theme-color" content="#03101b">
+
+  <link rel="preload" href="assets/fonts/InstrumentSerif-normal-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/InstrumentSerif-italic-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/PlusJakartaSans-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=20261023p">
+  <link rel="stylesheet" href="reservasi.css?v=20261023z20">
+  <noscript>
+    <style>
+      .booking-layout,
+      .prep,
+      .room-switch {
+        display: none;
+      }
+    </style>
+  </noscript>
+  <script>document.documentElement.classList.add("js");</script>
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+</head>
+<body class="book-page">
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M6 18 18 6M8 6h10v10"/></symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 20V4M5 11l7-7 7 7"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m4 12.5 4.5 4.5L20 6.5"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c.5-4 3.2-6 6.5-6s6 2 6.5 6M16 4.5a3 3 0 0 1 0 6M18.5 14c2.2.5 3.5 2.5 3.8 5.2"/></symbol>
+    <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2.5 8.5a15 15 0 0 1 19 0M5.5 12a10 10 0 0 1 13 0M8.7 15.4a5 5 0 0 1 6.6 0"/><circle cx="12" cy="19" r="1"/></symbol>
+    <symbol id="i-board" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21l4-4 4 4"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6.3M20 4v7h-7"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="8" r="4"/><path d="m11 11 9 9M16 16l2-2M18 18l2-2"/></symbol>
+    <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".8" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><rect x="3" y="9" width="4" height="12" rx="1"/><circle cx="5" cy="5" r="1.8"/><path d="M11 21v-7c0-3 2-5 5-5s5 2 5 5v7"/></symbol>
+    <symbol id="i-youtube" viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9 5 3-5 3Z"/></symbol>
+  </svg>
+
+  <header class="topbar" id="topbar">
+    <a class="brand" href="index.html" aria-label="Ruang, kembali ke beranda">
+      Ruang<span class="brand__mark">®</span>
+    </a>
+
+    <nav class="nav" aria-label="Navigasi utama">
+      <a class="nav__link" href="index.html#beranda" data-nav="beranda">Beranda</a>
+      <a class="nav__link" href="index.html#tentang" data-nav="tentang">Tentang</a>
+      <a class="nav__link" href="index.html#ruang" data-nav="ruang">Ruang</a>
+      <a class="nav__link" href="index.html#jadwal" data-nav="jadwal">Jadwal</a>
+      <a class="nav__link" href="index.html#kontak" data-nav="kontak">Kontak</a>
+    </nav>
+
+    <div class="topbar__actions">
+      <a class="btn btn--ghost-light btn--sm" href="#tanggal">Reservasi</a>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true" inert>
+    <nav class="mobile-menu__nav" aria-label="Navigasi seluler">
+      <a href="index.html#beranda">Beranda</a>
+      <a href="index.html#tentang">Tentang</a>
+      <a href="index.html#ruang">Ruang</a>
+      <a href="index.html#jadwal">Jadwal</a>
+      <a href="index.html#kontak">Kontak</a>
+    </nav>
+    <div class="mobile-menu__foot">
+      <a class="btn btn--light" href="#tanggal">Reservasi</a>
+      <p>Pesan ruang kampus, lebih tenang.</p>
+    </div>
+  </div>
+
+  <main id="atas">
+    <section class="book-hero" aria-labelledby="bookTitle">
+      <div class="book-hero__glow" aria-hidden="true"></div>
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index.html">Beranda</a>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">Reservasi</span>
+        </nav>
+
+        <p class="eyebrow">Reservasi ruang</p>
+        <h1 class="book-hero__title" id="bookTitle">Pilih ruang, tentukan jam. <em>Sisanya kami jaga.</em></h1>
+        <p class="book-hero__lede">
+          Ketersediaan diperbarui langsung dari jadwal kampus. Konfirmasi muncul
+          seketika, tanpa antre dan tanpa chat manual.
+        </p>
+
+        <div class="room-switch" role="group" aria-label="Ganti ruang">
+          <a class="room-chip is-active" data-slug="aria" href="reservasi.html?ruang=aria" aria-current="true">Aria</a>
+          <a class="room-chip" data-slug="nusa" href="reservasi.html?ruang=nusa">Nusa</a>
+          <a class="room-chip" data-slug="sunyi" href="reservasi.html?ruang=sunyi">Sunyi</a>
+          <a class="room-chip" data-slug="cakra" href="reservasi.html?ruang=cakra">Cakra</a>
+          <a class="room-chip" data-slug="loka" href="reservasi.html?ruang=loka">Loka</a>
+          <a class="room-chip" data-slug="sabha" href="reservasi.html?ruang=sabha">Sabha</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="book-main">
+      <div class="container">
+        <div class="room-preview" id="roomPreview">
+          <div class="room-preview__media">
+            <img id="roomImage" src="assets/img/study.jpg" alt="Ruang diskusi Aria dengan jendela lebar dan meja panjang" width="1200" height="801">
+            <div class="room-preview__badges">
+              <span class="status status--free" id="roomStatus"><span></span><span class="status__text">Tersedia</span></span>
+              <span class="room-preview__type" id="roomType">Diskusi</span>
+            </div>
+          </div>
+          <div class="room-preview__body">
+            <p class="room-preview__place">
+              <svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg><span id="roomPlace">Gedung A · Lt. 3</span>
+            </p>
+            <h2 id="roomName">Aria</h2>
+            <p class="room-preview__desc" id="roomDesc">
+              Meja bundar, layar 55 inci, dan papan tulis untuk diskusi kelompok.
+            </p>
+            <dl class="room-facts">
+              <div>
+                <dt>Kapasitas</dt>
+                <dd id="roomCap">6 orang</dd>
+              </div>
+              <div>
+                <dt>Jam operasional</dt>
+                <dd>08.00–18.00 WIB</dd>
+              </div>
+              <div>
+                <dt>Biaya</dt>
+                <dd>Gratis</dd>
+              </div>
+            </dl>
+            <ul class="facilities" id="roomFacilities" aria-label="Fasilitas ruang">
+              <li>Wi-Fi</li>
+              <li>Layar 55 inci</li>
+              <li>Papan tulis</li>
+              <li>Stop kontak</li>
+              <li>AC</li>
+            </ul>
+          </div>
+        </div>
+
+        <noscript>
+          <p class="notice notice--warn">
+            Aktifkan JavaScript untuk memilih tanggal dan jam. Kamu tetap bisa
+            menghubungi tim Ruang di
+            <a href="mailto:halo@ruang.kampus.ac.id">halo@ruang.kampus.ac.id</a>.
+          </p>
+        </noscript>
+
+        <form class="booking-layout" id="bookingForm" novalidate>
+          <div class="booking-main" data-stagger>
+            <section class="book-card reveal" id="tanggal" aria-labelledby="tanggalTitle">
+              <header class="book-step">
+                <span class="book-step__num">01</span>
+                <div>
+                  <h2 id="tanggalTitle">Pilih tanggal</h2>
+                  <p>Ketersediaan tiap hari bisa berbeda. Pilih hari yang paling pas.</p>
+                </div>
+              </header>
+              <div class="date-scroll">
+                <div class="date-grid" id="dateGrid" role="group" aria-label="Tanggal reservasi"></div>
+              </div>
+            </section>
+
+            <section class="book-card reveal" aria-labelledby="jamTitle">
+              <header class="book-step">
+                <span class="book-step__num">02</span>
+                <div>
+                  <h2 id="jamTitle">Pilih jam dan durasi</h2>
+                  <p id="slotDate">Jumat, 23 Oktober 2026</p>
+                </div>
+              </header>
+
+              <div class="duration" role="group" aria-label="Durasi reservasi">
+                <button class="duration__btn" type="button" data-duration="1" aria-pressed="false">1 jam</button>
+                <button class="duration__btn is-active" type="button" data-duration="2" aria-pressed="true">2 jam</button>
+                <button class="duration__btn" type="button" data-duration="3" aria-pressed="false">3 jam</button>
+                <button class="duration__btn" type="button" data-duration="4" aria-pressed="false">4 jam</button>
+              </div>
+
+              <div class="slot-grid" id="slotGrid" role="group" aria-label="Jam mulai"></div>
+              <p class="slot-empty" id="slotEmpty" hidden>
+                Tidak ada jam tersedia untuk pilihan ini. Coba durasi lain atau
+                pilih tanggal berikutnya.
+              </p>
+
+              <div class="legend" aria-hidden="true">
+                <span><i class="legend__dot legend__dot--free"></i>Tersedia</span>
+                <span><i class="legend__dot legend__dot--pick"></i>Dipilih</span>
+                <span><i class="legend__dot legend__dot--busy"></i>Tidak tersedia</span>
+              </div>
+
+              <p class="slot-hint" id="slotHint" role="status" aria-live="polite">
+                Pilih jam mulai untuk melihat ringkasan.
+              </p>
+            </section>
+
+            <section class="book-card reveal" aria-labelledby="detailTitle">
+              <header class="book-step">
+                <span class="book-step__num">03</span>
+                <div>
+                  <h2 id="detailTitle">Lengkapi detail</h2>
+                  <p>Data ini dipakai pengelola untuk mengonfirmasi reservasimu.</p>
+                </div>
+              </header>
+
+              <div class="alert" id="formAlert" role="alert" hidden>
+                Ada beberapa bagian yang perlu diperbaiki. Periksa kolom bertanda.
+              </div>
+
+              <div class="form-grid">
+                <div class="field field--full">
+                  <label for="nama">Nama lengkap</label>
+                  <input id="nama" name="nama" type="text" autocomplete="name" placeholder="Nama sesuai kartu mahasiswa" aria-describedby="err-nama" required>
+                  <p class="field__error" id="err-nama" hidden></p>
+                </div>
+
+                <div class="field">
+                  <label for="nim">NIM atau NIDN</label>
+                  <input id="nim" name="nim" type="text" inputmode="numeric" autocomplete="off" placeholder="Contoh: 22100432" aria-describedby="err-nim" required>
+                  <p class="field__error" id="err-nim" hidden></p>
+                </div>
+
+                <div class="field">
+                  <label for="email">Email kampus</label>
+                  <input id="email" name="email" type="email" autocomplete="email" placeholder="nama@kampus.ac.id" aria-describedby="err-email" required>
+                  <p class="field__error" id="err-email" hidden></p>
+                </div>
+
+                <div class="field">
+                  <div class="field__label-row">
+                    <label for="peserta">Jumlah peserta</label>
+                    <span class="field__hint" id="capacityHint">Maks. 6 orang</span>
+                  </div>
+                  <input id="peserta" name="peserta" type="number" min="1" max="6" value="1" step="1" inputmode="numeric" aria-describedby="err-peserta capacityHint" required>
+                  <p class="field__error" id="err-peserta" hidden></p>
+                </div>
+
+                <div class="field field--full">
+                  <label for="agenda">Agenda atau tujuan</label>
+                  <textarea id="agenda" name="agenda" rows="3" placeholder="Contoh: Diskusi kelompok mata kuliah Riset Pasar" aria-describedby="err-agenda" required></textarea>
+                  <p class="field__error" id="err-agenda" hidden></p>
+                </div>
+              </div>
+
+              <label class="agree" for="setuju">
+                <input id="setuju" name="setuju" type="checkbox" aria-describedby="err-setuju">
+                <span>Saya sudah membaca aturan penggunaan ruang dan akan datang 10 menit lebih awal.</span>
+              </label>
+              <p class="field__error" id="err-setuju" hidden></p>
+            </section>
+          </div>
+
+          <aside class="booking-aside" aria-label="Ringkasan dan bantuan reservasi" data-stagger>
+            <div class="summary reveal">
+              <p class="summary__eyebrow">Ringkasan reservasi</p>
+              <div class="summary__room">
+                <h2 id="sumRoom">Aria</h2>
+                <p id="sumPlace">Gedung A · Lt. 3</p>
+              </div>
+
+              <dl class="summary__list">
+                <div>
+                  <dt>Tanggal</dt>
+                  <dd id="sumDate">Memuat tanggal</dd>
+                </div>
+                <div>
+                  <dt>Waktu</dt>
+                  <dd id="sumTime">Belum dipilih</dd>
+                </div>
+                <div>
+                  <dt>Durasi</dt>
+                  <dd id="sumDuration">2 jam</dd>
+                </div>
+                <div>
+                  <dt>Peserta</dt>
+                  <dd id="sumPeople">1 orang</dd>
+                </div>
+                <div>
+                  <dt>Biaya</dt>
+                  <dd>Gratis</dd>
+                </div>
+              </dl>
+
+              <button class="btn btn--light summary__submit" type="submit">
+                Konfirmasi reservasi
+                <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+              </button>
+              <p class="summary__note" id="summaryNote">
+                Pilih jam mulai untuk melanjutkan.
+              </p>
+            </div>
+
+            <div class="prep reveal" aria-labelledby="prepTitle">
+              <h3 class="prep__title" id="prepTitle">Sebelum datang</h3>
+
+              <div class="prep__item">
+                <span class="prep__icon"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg></span>
+                <div>
+                  <p class="prep__item-title">Datang 10 menit awal</p>
+                  <p>Ruang ditahan sampai 10 menit setelah jam mulai.</p>
+                </div>
+              </div>
+
+              <div class="prep__item">
+                <span class="prep__icon"><svg class="icon" aria-hidden="true"><use href="#i-calendar"></use></svg></span>
+                <div>
+                  <p class="prep__item-title">Maksimal 4 jam</p>
+                  <p>Satu reservasi berlaku untuk satu rentang waktu.</p>
+                </div>
+              </div>
+
+              <div class="prep__item">
+                <span class="prep__icon"><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg></span>
+                <div>
+                  <p class="prep__item-title">Batalkan lebih awal</p>
+                  <p>Lepas jadwal minimal 2 jam sebelum waktu mulai.</p>
+                </div>
+              </div>
+
+              <div class="prep__help">
+                <h3>Butuh bantuan?</h3>
+                <p>Tim Ruang siap membantu di hari kerja, 08.00–17.00 WIB.</p>
+                <a href="mailto:halo@ruang.kampus.ac.id">halo@ruang.kampus.ac.id</a>
+              </div>
+            </div>
+          </aside>
+        </form>
+
+        <section class="success" id="success" aria-labelledby="successTitle" hidden>
+          <div class="success__badge" aria-hidden="true">
+            <svg class="icon"><use href="#i-check"></use></svg>
+          </div>
+          <p class="eyebrow">Reservasi terkonfirmasi</p>
+          <h2 id="successTitle" tabindex="-1">Sampai jumpa di <span id="successRoom">Aria</span>.</h2>
+          <p class="success__lede">
+            Tunjukkan kode ini di pintu. Konfirmasi juga dikirim ke email kampusmu.
+          </p>
+
+          <div class="success__code">
+            <span>Kode reservasi</span>
+            <strong id="successCode">RNG-0000</strong>
+          </div>
+
+          <dl class="success__details">
+            <div>
+              <dt>Ruang</dt>
+              <dd id="successPlace">Aria · Gedung A · Lt. 3</dd>
+            </div>
+            <div>
+              <dt>Tanggal</dt>
+              <dd id="successDate">Jumat, 23 Oktober 2026</dd>
+            </div>
+            <div>
+              <dt>Waktu</dt>
+              <dd id="successTime">14.00–16.00 WIB</dd>
+            </div>
+            <div>
+              <dt>Peserta</dt>
+              <dd id="successPeople">1 orang</dd>
+            </div>
+            <div>
+              <dt>Pemesan</dt>
+              <dd id="successName">Nama pemesan</dd>
+            </div>
+            <div>
+              <dt>Agenda</dt>
+              <dd id="successAgenda">Agenda kegiatan</dd>
+            </div>
+          </dl>
+
+          <div class="success__actions">
+            <a class="btn btn--ink" href="index.html">Kembali ke beranda</a>
+            <a class="btn btn--outline" href="index.html#jadwal">Lihat jadwal langsung</a>
+            <button class="success__again" type="button" id="againBtn">Buat reservasi lain</button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="book-horizon" aria-hidden="true">
+      <div class="book-horizon__stars"></div>
+      <div class="book-horizon__glow"></div>
+      <span class="book-horizon__line"></span>
+    </div>
+  </main>
+
+  <footer class="footer" id="kontak">
+    <div class="footer__masthead reveal">
+      <div class="footer__scene" aria-hidden="true">
+        <img class="footer__landscape" src="assets/img/footer-dusk.svg?v=20261023p" alt="" width="1600" height="420">
+      </div>
+      <div class="container footer__masthead-inner">
+        <p class="eyebrow">Setelah kelas usai</p>
+        <p class="footer__statement">Kampus tetap hidup untuk ide yang <em>belum selesai.</em></p>
+      </div>
+    </div>
+
+    <div class="container footer__main">
+      <div class="footer__grid" data-stagger>
+        <div class="footer__brand reveal">
+          <a class="brand" href="index.html" aria-label="Ruang, kembali ke beranda">Ruang<span class="brand__mark">®</span></a>
+          <p>Pesan ruang kampus tanpa ribet. Satu portal untuk semua ruang di kampus.</p>
+          <div class="footer__status"><span></span>Semua sistem normal</div>
+          <div class="socials">
+            <a href="#" aria-label="Instagram Ruang"><svg class="icon" aria-hidden="true"><use href="#i-instagram"></use></svg></a>
+            <a href="#" aria-label="LinkedIn Ruang"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"></use></svg></a>
+            <a href="#" aria-label="YouTube Ruang"><svg class="icon" aria-hidden="true"><use href="#i-youtube"></use></svg></a>
+          </div>
+        </div>
+
+        <nav class="footer__col reveal" aria-label="Jelajahi">
+          <h3>Jelajahi</h3>
+          <a href="index.html#beranda">Beranda</a>
+          <a href="index.html#tentang">Tentang</a>
+          <a href="index.html#ruang">Ruang</a>
+          <a href="index.html#jadwal">Jadwal</a>
+        </nav>
+
+        <nav class="footer__col reveal" aria-label="Bantuan">
+          <h3>Bantuan</h3>
+          <a href="index.html#faq">Pertanyaan umum</a>
+          <a href="index.html#cara-kerja">Panduan reservasi</a>
+          <a href="mailto:halo@ruang.kampus.ac.id">Hubungi kami</a>
+        </nav>
+
+        <div class="footer__col footer__contact reveal">
+          <h3>Kontak</h3>
+          <a href="mailto:halo@ruang.kampus.ac.id">halo@ruang.kampus.ac.id</a>
+          <a href="tel:+6281234567890">+62 812 3456 7890</a>
+          <p>Gedung Utama, Lt. 1<br>Kampus Hybrid, Indonesia</p>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p>© 2026 Ruang. Sistem Reservasi Ruang Kampus.</p>
+        <a class="footer__top" href="#atas">Kembali ke atas <svg class="icon" aria-hidden="true"><use href="#i-arrow-up"></use></svg></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js?v=20261023p"></script>
+  <script src="reservasi.js?v=20261023z20"></script>
+</body>
+</html>

@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ruang: Setiap ide layak punya ruang</title>
+  <meta name="description" content="Portal peminjaman ruang kampus untuk belajar, berdiskusi, dan bimbingan. Cek ketersediaan secara real-time dan pesan tanpa benturan jadwal.">
+  <meta name="theme-color" content="#03101b">
+
+  <link rel="preload" href="assets/fonts/InstrumentSerif-normal-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/InstrumentSerif-italic-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/PlusJakartaSans-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=20261023p">
+  <script>document.documentElement.classList.add("js");</script>
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+</head>
+<body>
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M6 18 18 6M8 6h10v10"/></symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 20V4M5 11l7-7 7 7"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m4 12.5 4.5 4.5L20 6.5"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c.5-4 3.2-6 6.5-6s6 2 6.5 6M16 4.5a3 3 0 0 1 0 6M18.5 14c2.2.5 3.5 2.5 3.8 5.2"/></symbol>
+    <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2.5 8.5a15 15 0 0 1 19 0M5.5 12a10 10 0 0 1 13 0M8.7 15.4a5 5 0 0 1 6.6 0"/><circle cx="12" cy="19" r="1"/></symbol>
+    <symbol id="i-board" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21l4-4 4 4"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6.3M20 4v7h-7"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="8" r="4"/><path d="m11 11 9 9M16 16l2-2M18 18l2-2"/></symbol>
+    <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".8" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><rect x="3" y="9" width="4" height="12" rx="1"/><circle cx="5" cy="5" r="1.8"/><path d="M11 21v-7c0-3 2-5 5-5s5 2 5 5v7"/></symbol>
+    <symbol id="i-youtube" viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9 5 3-5 3Z"/></symbol>
+  </svg>
+
+  <header class="topbar" id="topbar">
+    <a class="brand" href="#beranda" aria-label="Ruang, kembali ke beranda">
+      Ruang<span class="brand__mark">®</span>
+    </a>
+
+    <nav class="nav" aria-label="Navigasi utama">
+      <a class="nav__link is-active" href="#beranda" data-nav="beranda" aria-current="location">Beranda</a>
+      <a class="nav__link" href="#tentang" data-nav="tentang">Tentang</a>
+      <a class="nav__link" href="#ruang" data-nav="ruang">Ruang</a>
+      <a class="nav__link" href="#jadwal" data-nav="jadwal">Jadwal</a>
+      <a class="nav__link" href="#kontak" data-nav="kontak">Kontak</a>
+    </nav>
+
+    <div class="topbar__actions">
+      <a class="btn btn--ghost-light btn--sm" href="reservasi.html">Reservasi</a>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true" inert>
+    <nav class="mobile-menu__nav" aria-label="Navigasi seluler">
+      <a href="#beranda">Beranda</a>
+      <a href="#tentang">Tentang</a>
+      <a href="#ruang">Ruang</a>
+      <a href="#jadwal">Jadwal</a>
+      <a href="#kontak">Kontak</a>
+    </nav>
+    <div class="mobile-menu__foot">
+      <a class="btn btn--light" href="reservasi.html">Reservasi</a>
+      <p>Pesan ruang kampus, lebih tenang.</p>
+    </div>
+  </div>
+
+  <main>
+    <section class="hero" id="beranda">
+    <div class="atmosphere" aria-hidden="true">
+      <div class="aurora aurora--one"></div>
+      <div class="aurora aurora--two"></div>
+      <div class="milky-way"></div>
+      <div class="stars" id="stars"></div>
+      <div class="moon"></div>
+      <div class="shooting-star"></div>
+      <div class="shooting-star shooting-star--two"></div>
+      <div class="sky-glow"></div>
+
+      <svg class="scene" viewBox="0 0 1600 620" preserveAspectRatio="xMidYMax slice" focusable="false">
+        <defs>
+          <linearGradient id="far-hill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0b2a3d"/>
+            <stop offset="1" stop-color="#071c2a"/>
+          </linearGradient>
+          <linearGradient id="building-far" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0a2334"/>
+            <stop offset="1" stop-color="#05141f"/>
+          </linearGradient>
+          <linearGradient id="glass-warm" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#ffeab2"/>
+            <stop offset=".42" stop-color="#ffc574"/>
+            <stop offset="1" stop-color="#cf6e28"/>
+          </linearGradient>
+          <linearGradient id="door-warm" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fff7d9"/>
+            <stop offset="1" stop-color="#ffc16a"/>
+          </linearGradient>
+          <linearGradient id="path-warm" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#ffc471" stop-opacity=".34"/>
+            <stop offset="1" stop-color="#ffb45e" stop-opacity="0"/>
+          </linearGradient>
+          <radialGradient id="halo-warm" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stop-color="#ffd89a" stop-opacity=".66"/>
+            <stop offset=".46" stop-color="#ffab54" stop-opacity=".24"/>
+            <stop offset="1" stop-color="#ff9a3d" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="halo-wide" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stop-color="#ffbb6b" stop-opacity=".31"/>
+            <stop offset=".55" stop-color="#e88b3b" stop-opacity=".11"/>
+            <stop offset="1" stop-color="#e88b3b" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="lamp-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stop-color="#fff3c4" stop-opacity="1"/>
+            <stop offset=".3" stop-color="#ffd48a" stop-opacity=".8"/>
+            <stop offset="1" stop-color="#ffc06b" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="fog-band" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#87a9b8" stop-opacity="0"/>
+            <stop offset=".46" stop-color="#9ab8c3" stop-opacity=".2"/>
+            <stop offset="1" stop-color="#87a9b8" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="grass-rim" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0" stop-color="#d99a51" stop-opacity="0"/>
+            <stop offset="1" stop-color="#ffd99b" stop-opacity=".4"/>
+          </linearGradient>
+          <linearGradient id="ridge-back" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#1a4b64"/>
+            <stop offset="1" stop-color="#0b2a3d"/>
+          </linearGradient>
+          <linearGradient id="ridge-mid" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0e3448"/>
+            <stop offset="1" stop-color="#071d2c"/>
+          </linearGradient>
+          <linearGradient id="skyline-warm" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#ffd39a" stop-opacity=".22"/>
+            <stop offset="1" stop-color="#ffb45e" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="cloud-cool" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#a6c4d1" stop-opacity="0"/>
+            <stop offset=".5" stop-color="#a6c4d1" stop-opacity=".22"/>
+            <stop offset="1" stop-color="#a6c4d1" stop-opacity="0"/>
+          </linearGradient>
+
+          <filter id="blur-lg" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="20"/>
+          </filter>
+          <filter id="blur-md" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="9"/>
+          </filter>
+          <filter id="blur-sm" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="3.5"/>
+          </filter>
+
+          <clipPath id="facade-clip">
+            <path d="M620 560 L620 509 Q800 446 980 509 L980 560 Z"/>
+          </clipPath>
+
+          <g id="grass-clump">
+            <path d="M0 0C-2-22-9-39-17-54M3 0C2-25 5-44 11-62M7 0C12-24 20-40 30-52M-4 0C-10-15-21-26-32-33M-8 0C-16-17-24-25-34-29M9 0C16-19 26-30 38-36" fill="none" stroke="#09261f" stroke-width="1.7"/>
+          </g>
+          <g id="bloom-single">
+            <path d="M0 0C-1-14 3-25 1-38" fill="none" stroke="#163a2e" stroke-width="1.5"/>
+            <path d="M0-15c-7-4-9-13-2-15 3 6 3 10 2 15Z" fill="#0b2a21"/>
+            <circle cx="1" cy="-40" r="3.6" fill="#f4ab50"/>
+            <circle cx="1" cy="-40" r="1.4" fill="#ffe9b7"/>
+          </g>
+          <g id="bloom-cluster">
+            <path d="M0 0C-2-17 4-32 0-48M-2-29c-10-2-15-11-9-16M1-22c9-1 14-9 11-15" fill="none" stroke="#163a2e" stroke-width="1.4"/>
+            <circle cx="0" cy="-49" r="3.4" fill="#f5ad52"/>
+            <circle cx="-12" cy="-47" r="3" fill="#f7bb68"/>
+            <circle cx="12" cy="-38" r="2.8" fill="#ee9d43"/>
+            <circle cx="0" cy="-49" r="1.3" fill="#ffedc1"/>
+            <circle cx="-12" cy="-47" r="1.1" fill="#ffedc1"/>
+            <circle cx="12" cy="-38" r="1" fill="#ffedc1"/>
+          </g>
+          <g id="flower-large">
+            <path d="M0 0C-3-25 2-47-2-70" fill="none" stroke="#0d2a20" stroke-width="2.4"/>
+            <path d="M-1-30c-14-3-22-15-14-22 8 6 12 13 14 22Z" fill="#0b2a1f"/>
+            <path d="M1-44c12-4 21-14 15-22-8 5-13 12-15 22Z" fill="#0b2a1f"/>
+            <g transform="translate(-2 -79)">
+              <g fill="#f4b052" opacity=".95">
+                <ellipse cx="0" cy="-10" rx="6" ry="11"/>
+                <ellipse cx="0" cy="-10" rx="6" ry="11" transform="rotate(72)"/>
+                <ellipse cx="0" cy="-10" rx="6" ry="11" transform="rotate(144)"/>
+                <ellipse cx="0" cy="-10" rx="6" ry="11" transform="rotate(216)"/>
+                <ellipse cx="0" cy="-10" rx="6" ry="11" transform="rotate(288)"/>
+              </g>
+              <circle r="4.2" fill="#a95314"/>
+              <circle r="1.5" fill="#ffe6b0"/>
+            </g>
+          </g>
+        </defs>
+
+        <!-- ambient warmth rising from the meadow -->
+        <ellipse cx="800" cy="574" rx="590" ry="210" fill="url(#halo-wide)"/>
+        <ellipse cx="800" cy="548" rx="345" ry="142" fill="url(#halo-warm)" filter="url(#blur-lg)"/>
+
+        <!-- distant landscape -->
+        <path d="M0 452c74-30 128-14 200-30 62-14 106-30 170-22 60 7 95 30 156 28 66-2 106-28 172-26 61 2 102 26 164 26 66 0 106-26 174-24 60 2 98 26 158 26 64 0 104-26 168-24 56 2 92 24 150 24 40 0 80-12 128-20v126H0Z" fill="url(#ridge-back)" opacity=".6"/>
+        <path d="M0 490c84-12 139 4 223-8 91-13 147 5 237-4 82-8 127 5 216-2 88-7 138 8 228 1 87-6 134 7 221 0 76-6 132 4 205-2 57-5 111 2 170 0v135H0Z" fill="url(#far-hill)" opacity=".7"/>
+        <path d="M0 518c94-9 166 7 264-1 92-8 151 7 248 0 102-7 166 5 266-1 94-6 158 8 257 1 94-7 158 5 254-1 77-5 151 3 231-1v105H0Z" fill="url(#ridge-mid)" opacity=".78"/>
+
+        <!-- distant campus skyline -->
+        <g opacity=".5" fill="#0c2a3b">
+          <rect x="286" y="470" width="30" height="58" rx="3"/>
+          <rect x="322" y="456" width="22" height="72" rx="3"/>
+          <rect x="350" y="478" width="34" height="50" rx="3"/>
+          <rect x="390" y="462" width="24" height="66" rx="3"/>
+          <rect x="420" y="482" width="30" height="46" rx="3"/>
+          <rect x="456" y="470" width="20" height="58" rx="3"/>
+          <rect x="482" y="488" width="28" height="40" rx="3"/>
+          <rect x="1088" y="474" width="28" height="54" rx="3"/>
+          <rect x="1122" y="458" width="22" height="70" rx="3"/>
+          <rect x="1150" y="480" width="34" height="48" rx="3"/>
+          <rect x="1190" y="464" width="24" height="64" rx="3"/>
+          <rect x="1220" y="484" width="30" height="44" rx="3"/>
+          <rect x="1258" y="472" width="20" height="56" rx="3"/>
+          <rect x="1286" y="490" width="28" height="38" rx="3"/>
+        </g>
+        <g fill="#ffd39a" opacity=".38">
+          <rect x="292" y="480" width="3" height="4"/>
+          <rect x="300" y="492" width="3" height="4"/>
+          <rect x="328" y="466" width="3" height="4"/>
+          <rect x="336" y="482" width="3" height="4"/>
+          <rect x="358" y="490" width="3" height="4"/>
+          <rect x="396" y="472" width="3" height="4"/>
+          <rect x="404" y="490" width="3" height="4"/>
+          <rect x="428" y="492" width="3" height="4"/>
+          <rect x="462" y="480" width="3" height="4"/>
+          <rect x="488" y="498" width="3" height="4"/>
+          <rect x="1094" y="486" width="3" height="4"/>
+          <rect x="1102" y="500" width="3" height="4"/>
+          <rect x="1128" y="470" width="3" height="4"/>
+          <rect x="1136" y="486" width="3" height="4"/>
+          <rect x="1158" y="492" width="3" height="4"/>
+          <rect x="1196" y="476" width="3" height="4"/>
+          <rect x="1204" y="496" width="3" height="4"/>
+          <rect x="1228" y="494" width="3" height="4"/>
+          <rect x="1264" y="484" width="3" height="4"/>
+          <rect x="1292" y="500" width="3" height="4"/>
+        </g>
+        <rect x="0" y="506" width="1600" height="114" fill="url(#skyline-warm)" opacity=".5"/>
+
+        <!-- drifting cloud bands -->
+        <g filter="url(#blur-md)" opacity=".55">
+          <ellipse cx="300" cy="486" rx="260" ry="20" fill="url(#cloud-cool)"/>
+          <ellipse cx="806" cy="466" rx="330" ry="18" fill="#ffcf9a" opacity=".1"/>
+          <ellipse cx="1320" cy="494" rx="280" ry="22" fill="url(#cloud-cool)"/>
+        </g>
+
+        <!-- haze behind the campus -->
+        <rect x="0" y="458" width="1600" height="146" fill="url(#fog-band)" opacity=".6"/>
+
+        <!-- left campus wing -->
+        <g opacity=".88">
+          <path d="M-40 596V371h71v-26h69v33h49v-63h72v89h47v192Z" fill="url(#building-far)"/>
+          <path d="M-40 371h71v-26h69v33h49v-63h72v89h47" fill="none" stroke="#164257" stroke-width="1.2" opacity=".6"/>
+          <ellipse cx="128" cy="500" rx="105" ry="80" fill="#ffbe6a" opacity=".07" filter="url(#blur-md)"/>
+          <g fill="#f6bf78">
+            <rect x="8" y="400" width="10" height="19" rx="1" opacity=".14"/>
+            <rect x="42" y="400" width="10" height="19" rx="1" opacity=".06"/>
+            <rect x="76" y="400" width="10" height="19" rx="1" opacity=".25"/>
+            <rect x="122" y="382" width="10" height="19" rx="1" opacity=".09"/>
+            <rect x="158" y="382" width="10" height="19" rx="1" opacity=".2"/>
+            <rect x="186" y="370" width="10" height="19" rx="1" opacity=".1"/>
+            <rect x="218" y="370" width="10" height="19" rx="1" opacity=".27"/>
+            <rect x="8" y="438" width="10" height="19" rx="1" opacity=".27"/>
+            <rect x="42" y="438" width="10" height="19" rx="1" opacity=".09"/>
+            <rect x="76" y="438" width="10" height="19" rx="1" opacity=".18"/>
+            <rect x="122" y="438" width="10" height="19" rx="1" opacity=".31"/>
+            <rect x="158" y="438" width="10" height="19" rx="1" opacity=".07"/>
+            <rect x="186" y="438" width="10" height="19" rx="1" opacity=".15"/>
+            <rect x="218" y="438" width="10" height="19" rx="1" opacity=".22"/>
+            <rect x="8" y="476" width="10" height="19" rx="1" opacity=".11"/>
+            <rect x="42" y="476" width="10" height="19" rx="1" opacity=".19"/>
+            <rect x="76" y="476" width="10" height="19" rx="1" opacity=".08"/>
+            <rect x="122" y="476" width="10" height="19" rx="1" opacity=".24"/>
+            <rect x="158" y="476" width="10" height="19" rx="1" opacity=".13"/>
+            <rect x="186" y="476" width="10" height="19" rx="1" opacity=".26"/>
+            <rect x="218" y="476" width="10" height="19" rx="1" opacity=".09"/>
+          </g>
+          <g fill="url(#building-far)">
+            <rect x="-8" y="356" width="26" height="15" rx="2"/>
+            <rect x="48" y="331" width="26" height="14" rx="2"/>
+            <rect x="112" y="365" width="22" height="13" rx="2"/>
+            <rect x="158" y="300" width="30" height="15" rx="2"/>
+            <rect x="196" y="294" width="20" height="21" rx="3"/>
+            <rect x="230" y="392" width="24" height="12" rx="2"/>
+          </g>
+          <path d="M196 300h20M196 306h20" stroke="#1c4354" stroke-width="1" opacity=".5"/>
+          <path d="M171 300v-38M6 356v-26M86 331v-20" stroke="#0d2a3c" stroke-width="2.4"/>
+          <g fill="#ff8a5c">
+            <circle cx="171" cy="260" r="2.6" opacity=".8"/>
+            <circle cx="6" cy="328" r="2" opacity=".55"/>
+            <circle cx="86" cy="309" r="1.8" opacity=".45"/>
+          </g>
+          <g>
+            <rect x="8" y="514" width="10" height="18" rx="1" fill="#ffd9a0" opacity=".4"/>
+            <rect x="42" y="514" width="10" height="18" rx="1" fill="#9fd4e8" opacity=".12"/>
+            <rect x="76" y="514" width="10" height="18" rx="1" fill="#ffd9a0" opacity=".18"/>
+            <rect x="122" y="514" width="10" height="18" rx="1" fill="#ffd9a0" opacity=".45"/>
+            <rect x="158" y="514" width="10" height="18" rx="1" fill="#9fd4e8" opacity=".1"/>
+            <rect x="186" y="514" width="10" height="18" rx="1" fill="#ffd9a0" opacity=".34"/>
+            <rect x="218" y="514" width="10" height="18" rx="1" fill="#ffd9a0" opacity=".14"/>
+            <rect x="8" y="552" width="10" height="18" rx="1" fill="#ffd9a0" opacity=".14"/>
+            <rect x="42" y="552" width="10" height="18" rx="1" fill="#ffd9a0" opacity=".09"/>
+            <rect x="76" y="552" width="10" height="18" rx="1" fill="#9fd4e8" opacity=".1"/>
+            <rect x="122" y="552" width="10" height="18" rx="1" fill="#ffd9a0" opacity=".32"/>
+            <rect x="186" y="552" width="10" height="18" rx="1" fill="#ffd9a0" opacity=".12"/>
+            <rect x="218" y="552" width="10" height="18" rx="1" fill="#9fd4e8" opacity=".08"/>
+          </g>
+          <path d="M31 371v225M100 345v251M149 378v218M221 315v281" stroke="#0a2334" stroke-width="1" opacity=".45"/>
+          <path d="M-40 371h71v-26h69v33h49v-63h72v89h47" fill="none" stroke="#f2c489" stroke-width="1" opacity=".22"/>
+        </g>
+
+        <!-- right campus wing + clock tower -->
+        <g class="wing-right" opacity=".82">
+          <path d="M1338 596V394h58v-29h55v-25h46v-62h48v62h39v38h55v218Z" fill="url(#building-far)"/>
+          <path d="M1495 278l26-30 27 30Z" fill="#081d2b"/>
+          <path d="M1508 278h27" stroke="#1a4458" stroke-width="1.4" opacity=".6"/>
+          <circle cx="1521" cy="300" r="10" fill="#f6c47b" opacity=".32"/>
+          <circle cx="1521" cy="300" r="10" fill="none" stroke="#f6d29b" stroke-width="1" opacity=".3"/>
+          <path d="M1521 292v8l6 3" fill="none" stroke="#ffe5b1" stroke-width="1.2" opacity=".5"/>
+          <path d="M1521 248v-32" stroke="#0d2a3c" stroke-width="3"/>
+          <circle cx="1521" cy="214" r="2.6" fill="#ff8a5c" opacity=".8"/>
+          <ellipse cx="1460" cy="500" rx="105" ry="85" fill="#ffbe6a" opacity=".06" filter="url(#blur-md)"/>
+          <g fill="#f6bf78">
+            <rect x="1352" y="418" width="9" height="18" rx="1" opacity=".12"/>
+            <rect x="1382" y="418" width="9" height="18" rx="1" opacity=".22"/>
+            <rect x="1410" y="400" width="9" height="18" rx="1" opacity=".09"/>
+            <rect x="1444" y="400" width="9" height="18" rx="1" opacity=".18"/>
+            <rect x="1500" y="348" width="9" height="18" rx="1" opacity=".14"/>
+            <rect x="1544" y="386" width="9" height="18" rx="1" opacity=".27"/>
+            <rect x="1574" y="386" width="9" height="18" rx="1" opacity=".1"/>
+            <rect x="1352" y="458" width="9" height="18" rx="1" opacity=".27"/>
+            <rect x="1382" y="458" width="9" height="18" rx="1" opacity=".08"/>
+            <rect x="1410" y="458" width="9" height="18" rx="1" opacity=".2"/>
+            <rect x="1444" y="458" width="9" height="18" rx="1" opacity=".12"/>
+            <rect x="1500" y="414" width="9" height="18" rx="1" opacity=".23"/>
+            <rect x="1544" y="436" width="9" height="18" rx="1" opacity=".09"/>
+            <rect x="1574" y="436" width="9" height="18" rx="1" opacity=".24"/>
+            <rect x="1352" y="500" width="9" height="18" rx="1" opacity=".11"/>
+            <rect x="1382" y="500" width="9" height="18" rx="1" opacity=".18"/>
+            <rect x="1500" y="470" width="9" height="18" rx="1" opacity=".16"/>
+            <rect x="1544" y="500" width="9" height="18" rx="1" opacity=".2"/>
+            <rect x="1574" y="500" width="9" height="18" rx="1" opacity=".08"/>
+          </g>
+          <g fill="url(#building-far)">
+            <rect x="1352" y="380" width="24" height="14" rx="2"/>
+            <rect x="1408" y="351" width="26" height="14" rx="2"/>
+            <rect x="1462" y="326" width="22" height="14" rx="2"/>
+            <rect x="1554" y="326" width="20" height="14" rx="2"/>
+            <rect x="1592" y="366" width="20" height="12" rx="2"/>
+          </g>
+          <g>
+            <rect x="1352" y="536" width="9" height="18" rx="1" fill="#ffd9a0" opacity=".36"/>
+            <rect x="1382" y="536" width="9" height="18" rx="1" fill="#9fd4e8" opacity=".1"/>
+            <rect x="1410" y="536" width="9" height="18" rx="1" fill="#ffd9a0" opacity=".18"/>
+            <rect x="1444" y="536" width="9" height="18" rx="1" fill="#ffd9a0" opacity=".4"/>
+            <rect x="1500" y="536" width="9" height="18" rx="1" fill="#9fd4e8" opacity=".18"/>
+            <rect x="1544" y="536" width="9" height="18" rx="1" fill="#ffd9a0" opacity=".32"/>
+            <rect x="1574" y="536" width="9" height="18" rx="1" fill="#ffd9a0" opacity=".13"/>
+            <rect x="1352" y="574" width="9" height="18" rx="1" fill="#ffd9a0" opacity=".13"/>
+            <rect x="1382" y="574" width="9" height="18" rx="1" fill="#ffd9a0" opacity=".08"/>
+            <rect x="1410" y="574" width="9" height="18" rx="1" fill="#9fd4e8" opacity=".09"/>
+            <rect x="1444" y="574" width="9" height="18" rx="1" fill="#ffd9a0" opacity=".19"/>
+            <rect x="1544" y="574" width="9" height="18" rx="1" fill="#ffd9a0" opacity=".11"/>
+            <rect x="1574" y="574" width="9" height="18" rx="1" fill="#9fd4e8" opacity=".07"/>
+          </g>
+          <path d="M1396 394v202M1451 365v231M1497 340v256M1545 340v256M1584 378v218" stroke="#0a2334" stroke-width="1" opacity=".45"/>
+          <path d="M1338 394h58v-29h55v-25h46v-62h48v62h39v38h55" fill="none" stroke="#f2c489" stroke-width="1" opacity=".2"/>
+          <path d="M1338 394v202" stroke="#f8c47c" stroke-width="1" opacity=".12"/>
+        </g>
+
+        <!-- distant tree line -->
+        <g fill="#041722" opacity=".86">
+          <path d="M0 596V542c43-11 74 2 111-8 26-7 43-20 71-16 21 3 36 18 60 17 29-2 45-21 75-20 30 2 43 23 73 20 35-3 47-25 81-21 26 3 40 19 66 19 29 0 49-17 78-13 25 3 42 19 67 18 32-1 47-23 79-22 30 1 49 21 78 23 34 3 53-17 86-14 27 3 46 20 74 19 31-1 45-21 77-18 28 3 36 21 69 20 31-1 51-20 82-17 26 3 40 18 67 16 28-2 43-18 72-14 27 4 37 20 65 22v70Z" opacity=".7"/>
+        </g>
+
+        <!-- warm glow behind the pavilion -->
+        <ellipse cx="800" cy="548" rx="280" ry="125" fill="url(#halo-warm)" filter="url(#blur-md)" opacity=".95"/>
+
+        <!-- pavilion -->
+        <g transform="translate(800 570) scale(1.13) translate(-800 -570)">
+          <path d="M588 566l12-66c124-49 276-49 400 0l12 66Z" fill="#061520"/>
+          <path d="M600 500q200-70 400 0" fill="none" stroke="#1c4354" stroke-width="2.2"/>
+          <path d="M602 496q198-66 396 0" fill="none" stroke="#e2aa67" stroke-width="1" opacity=".24"/>
+
+          <g clip-path="url(#facade-clip)">
+            <rect x="618" y="442" width="364" height="120" fill="url(#glass-warm)" opacity=".93"/>
+            <rect x="618" y="442" width="364" height="120" fill="#ffdd9b" opacity=".1"/>
+            <rect x="628" y="516" width="57" height="46" fill="#3b1e0b" opacity=".44"/>
+            <path d="M628 528h57M628 540h57M628 552h57" stroke="#ffdda0" stroke-width="1.4" opacity=".28"/>
+            <rect x="914" y="516" width="57" height="46" fill="#3b1e0b" opacity=".4"/>
+            <path d="M914 528h57M914 540h57M914 552h57" stroke="#ffdda0" stroke-width="1.4" opacity=".24"/>
+            <rect x="722" y="540" width="158" height="5" rx="2.5" fill="#3b1c08" opacity=".6"/>
+            <path d="M736 545v12M866 545v12" stroke="#3b1c08" stroke-width="4" opacity=".55"/>
+            <circle cx="752" cy="526" r="5" fill="#3b1c08" opacity=".62"/>
+            <path d="M740 540c1-8 5-11 12-11s11 3 12 11Z" fill="#3b1c08" opacity=".62"/>
+            <circle cx="850" cy="524" r="5" fill="#3b1c08" opacity=".55"/>
+            <path d="M838 539c1-8 5-11 12-11s11 3 12 11Z" fill="#3b1c08" opacity=".55"/>
+            <rect x="776" y="506" width="48" height="54" fill="url(#door-warm)"/>
+            <rect x="797" y="506" width="2" height="54" fill="#a6541e" opacity=".32"/>
+            <g stroke="#081924" stroke-width="4" opacity=".92">
+              <path d="M662 446v116M704 446v116M746 446v116M788 446v116M830 446v116M872 446v116M914 446v116M956 446v116"/>
+            </g>
+            <path d="M618 528h364" stroke="#081924" stroke-width="3.6" opacity=".75"/>
+            <path d="M618 447q182-63 364 0" fill="none" stroke="#081924" stroke-width="3" opacity=".7"/>
+            <g fill="#fff2c6">
+              <circle cx="684" cy="496" r="2.6"/>
+              <circle cx="772" cy="486" r="2.6"/>
+              <circle cx="828" cy="486" r="2.6"/>
+              <circle cx="916" cy="496" r="2.6"/>
+            </g>
+            <g fill="url(#lamp-glow)" opacity=".7">
+              <circle cx="684" cy="496" r="12"/>
+              <circle cx="772" cy="486" r="12"/>
+              <circle cx="828" cy="486" r="12"/>
+              <circle cx="916" cy="496" r="12"/>
+            </g>
+          </g>
+
+          <path d="M588 566l12-66c124-49 276-49 400 0l12 66" fill="none" stroke="#06131d" stroke-width="8" opacity=".55"/>
+          <path d="M600 500q200-70 400 0" fill="none" stroke="#f5c382" stroke-width="1" opacity=".15"/>
+          <ellipse cx="800" cy="564" rx="180" ry="44" fill="#ffc272" opacity=".22" filter="url(#blur-md)"/>
+          <path d="M772 558h56l54 62H718Z" fill="url(#path-warm)" opacity=".8"/>
+        </g>
+
+        <!-- pavilion terrace and light spill -->
+        <path d="M548 566h504l31 31c-188 12-376 12-566 0Z" fill="#04121a"/>
+        <path d="M548 566h504" stroke="#d99a58" stroke-width="1" opacity=".15"/>
+        <path d="M739 594h122l53 26H686Z" fill="url(#path-warm)" opacity=".55"/>
+
+        <!-- path lanterns -->
+        <g fill="url(#lamp-glow)" opacity=".3">
+          <circle cx="714" cy="600" r="14"/>
+          <circle cx="886" cy="600" r="13"/>
+        </g>
+        <g fill="#ffd08a" opacity=".85">
+          <circle cx="714" cy="600" r="2.2"/>
+          <circle cx="886" cy="600" r="2"/>
+          <circle cx="674" cy="612" r="1.8"/>
+          <circle cx="926" cy="612" r="1.6"/>
+        </g>
+        <g stroke="#04121a" stroke-width="2.4" opacity=".9">
+          <path d="M714 602v7M886 602v7M674 614v6M926 614v6"/>
+        </g>
+
+        <!-- trees framing the pavilion -->
+        <g fill="#03131c">
+          <path d="M543 600c-25-49-17-99 7-140 29 40 34 90 12 140Z"/>
+          <path d="M577 600c-16-37-9-71 9-98 18 28 22 62 7 98Z" opacity=".92"/>
+          <path d="M583 600c-14-27-4-49 6-60 10 14 15 34 7 60Z" opacity=".55"/>
+          <path d="M1036 600c-18-38-10-76 11-106 20 31 25 69 9 106Z" opacity=".96"/>
+          <path d="M1070 600c-27-55-19-109 7-151 30 45 36 100 12 151Z"/>
+          <path d="M1102 600c-11-29-5-55 8-76 13 22 17 48 7 76Z" opacity=".85"/>
+          <path d="M1123 600c-7-19-3-36 5-49 8 14 11 31 4 49Z" opacity=".6"/>
+        </g>
+        <g fill="none" stroke="#d99a58" opacity=".12">
+          <path d="M543 600c-25-49-17-99 7-140"/>
+          <path d="M1070 600c-27-55-19-109 7-151"/>
+        </g>
+
+        <!-- mist in front of the pavilion -->
+        <ellipse cx="800" cy="586" rx="640" ry="42" fill="#86a7b4" opacity=".1" filter="url(#blur-lg)"/>
+        <rect x="0" y="540" width="1600" height="74" fill="url(#fog-band)" opacity=".35"/>
+
+        <!-- ground -->
+        <path d="M0 620V574c91-10 167 6 265-2 105-8 161 7 258-1 96-8 168 5 267-1 97-6 158 8 256 1 99-7 164 5 261-1 79-5 153 2 233-2v52Z" fill="#020b11"/>
+        <path d="M0 574c91-10 167 6 265-2 105-8 161 7 258-1 96-8 168 5 267-1 97-6 158 8 256 1 99-7 164 5 261-1 79-5 153 2 233-2" fill="none" stroke="url(#grass-rim)" stroke-width="2"/>
+
+        <!-- layered meadow -->
+        <g class="meadow">
+          <use href="#grass-clump" transform="translate(32 620) scale(1.75)"/>
+          <use href="#grass-clump" transform="translate(108 622) scale(2.4)"/>
+          <use href="#grass-clump" transform="translate(194 620) scale(1.35)"/>
+          <use href="#grass-clump" transform="translate(272 622) scale(2.15)"/>
+          <use href="#grass-clump" transform="translate(348 620) scale(1.55)"/>
+          <use href="#grass-clump" transform="translate(438 622) scale(2.6)"/>
+          <use href="#grass-clump" transform="translate(516 620) scale(1.4)"/>
+          <use href="#grass-clump" transform="translate(590 622) scale(2.1)"/>
+          <use href="#grass-clump" transform="translate(670 620) scale(1.3)"/>
+          <use href="#grass-clump" transform="translate(1014 622) scale(1.5)"/>
+          <use href="#grass-clump" transform="translate(1092 620) scale(2.3)"/>
+          <use href="#grass-clump" transform="translate(1170 622) scale(1.4)"/>
+          <use href="#grass-clump" transform="translate(1256 620) scale(2.55)"/>
+          <use href="#grass-clump" transform="translate(1338 622) scale(1.65)"/>
+          <use href="#grass-clump" transform="translate(1420 620) scale(2.25)"/>
+          <use href="#grass-clump" transform="translate(1498 622) scale(1.5)"/>
+          <use href="#grass-clump" transform="translate(1560 620) scale(2.5)"/>
+
+          <use href="#bloom-single" transform="translate(18 626) scale(1.35)"/>
+          <use href="#bloom-cluster" transform="translate(52 628) scale(1.7)"/>
+          <use href="#bloom-single" transform="translate(84 624) scale(1.15)"/>
+          <use href="#flower-large" transform="translate(110 632) scale(1.45)"/>
+          <use href="#bloom-single" transform="translate(148 626) scale(2.05)"/>
+          <use href="#bloom-cluster" transform="translate(188 630) scale(1.45)"/>
+          <use href="#bloom-single" transform="translate(218 624) scale(1.25)"/>
+          <use href="#flower-large" transform="translate(250 634) scale(1.2)"/>
+          <use href="#bloom-single" transform="translate(286 628) scale(1.8)"/>
+          <use href="#bloom-cluster" transform="translate(326 626) scale(1.35)"/>
+          <use href="#bloom-single" transform="translate(354 630) scale(1.55)"/>
+          <use href="#bloom-single" transform="translate(390 624) scale(1.1)"/>
+          <use href="#bloom-cluster" transform="translate(428 632) scale(1.9)"/>
+          <use href="#flower-large" transform="translate(468 636) scale(1.35)"/>
+          <use href="#bloom-single" transform="translate(504 628) scale(1.4)"/>
+          <use href="#bloom-cluster" transform="translate(548 630) scale(1.5)"/>
+          <use href="#bloom-single" transform="translate(588 634) scale(1.2)"/>
+          <use href="#bloom-single" transform="translate(630 630) scale(1.6)"/>
+          <use href="#bloom-cluster" transform="translate(676 634) scale(1.3)"/>
+
+          <use href="#bloom-single" transform="translate(1090 630) scale(1.55)"/>
+          <use href="#bloom-cluster" transform="translate(1132 632) scale(1.4)"/>
+          <use href="#flower-large" transform="translate(1174 636) scale(1.3)"/>
+          <use href="#bloom-single" transform="translate(1214 626) scale(1.8)"/>
+          <use href="#bloom-cluster" transform="translate(1252 630) scale(1.8)"/>
+          <use href="#bloom-single" transform="translate(1290 634) scale(1.25)"/>
+          <use href="#flower-large" transform="translate(1326 632) scale(1.55)"/>
+          <use href="#bloom-single" transform="translate(1368 628) scale(1.9)"/>
+          <use href="#bloom-cluster" transform="translate(1406 634) scale(1.3)"/>
+          <use href="#bloom-single" transform="translate(1444 626) scale(1.5)"/>
+          <use href="#bloom-cluster" transform="translate(1484 632) scale(2.05)"/>
+          <use href="#bloom-single" transform="translate(1522 628) scale(1.2)"/>
+          <use href="#flower-large" transform="translate(1556 634) scale(1.75)"/>
+          <use href="#bloom-single" transform="translate(1588 626) scale(1.6)"/>
+
+          <use href="#bloom-single" transform="translate(726 636) scale(1.1)"/>
+          <use href="#bloom-single" transform="translate(762 638) scale(1.35)"/>
+          <use href="#bloom-cluster" transform="translate(812 638) scale(1.2)"/>
+          <use href="#bloom-single" transform="translate(856 636) scale(1.05)"/>
+          <use href="#bloom-single" transform="translate(934 638) scale(1.3)"/>
+          <use href="#bloom-cluster" transform="translate(978 636) scale(1.15)"/>
+        </g>
+
+        <!-- softly blurred bokeh in the meadow -->
+        <g class="bokeh" filter="url(#blur-sm)">
+          <circle cx="98" cy="586" r="10" fill="#ffc06d" opacity=".28"/>
+          <circle cx="184" cy="602" r="6" fill="#ffd694" opacity=".34"/>
+          <circle cx="318" cy="592" r="8" fill="#ffb55f" opacity=".2"/>
+          <circle cx="458" cy="608" r="12" fill="#ffc97c" opacity=".22"/>
+          <circle cx="1248" cy="596" r="9" fill="#ffc06d" opacity=".26"/>
+          <circle cx="1402" cy="608" r="13" fill="#ffd694" opacity=".18"/>
+          <circle cx="1510" cy="588" r="7" fill="#ffb55f" opacity=".3"/>
+          <circle cx="700" cy="612" r="7" fill="#ffd694" opacity=".16"/>
+          <circle cx="910" cy="610" r="8" fill="#ffc06d" opacity=".16"/>
+        </g>
+
+        <!-- foreground silhouettes -->
+        <g fill="#01070b">
+          <path d="M0 620v-58c33-4 55-17 78-42 9-9 20-7 24 4 5 15 14 25 30 33 18 9 25 28 22 63Z" opacity=".95"/>
+          <path d="M1600 620v-63c-35-3-59-17-83-44-8-10-20-8-25 3-7 17-18 27-35 36-15 8-20 27-18 68Z" opacity=".95"/>
+          <path d="M470 620h660c-42-13-89-19-142-18-74 1-134 9-187 7-63-2-118-9-176-7-63 2-109 8-155 18Z" opacity=".72"/>
+        </g>
+
+        <g class="sparkles">
+          <circle cx="122" cy="548" r="2" fill="#ffd38b" opacity=".85"/>
+          <circle cx="318" cy="570" r="1.6" fill="#ffd38b" opacity=".6"/>
+          <circle cx="492" cy="536" r="1.4" fill="#ffe0a1" opacity=".65"/>
+          <circle cx="690" cy="556" r="1.5" fill="#ffd38b" opacity=".5"/>
+          <circle cx="946" cy="548" r="1.8" fill="#ffd38b" opacity=".65"/>
+          <circle cx="1158" cy="566" r="1.4" fill="#ffe0a1" opacity=".7"/>
+          <circle cx="1366" cy="544" r="2" fill="#ffd38b" opacity=".8"/>
+          <circle cx="1528" cy="572" r="1.5" fill="#ffe0a1" opacity=".55"/>
+        </g>
+      </svg>
+
+      <div class="fireflies" id="fireflies"></div>
+      <div class="grain"></div>
+      <div class="vignette"></div>
+    </div>
+
+    <div class="hero__main">
+      <h1 class="headline">
+        <span class="headline__line">Setiap ide layak</span>
+        <span class="headline__line">punya <em>ruang.</em></span>
+      </h1>
+
+      <p class="lede">
+        Ruang belajar, diskusi, dan bimbingan di kampus tersedia secara
+        <strong>real-time</strong> dan siap dipesan tanpa benturan jadwal.
+      </p>
+
+      <a class="btn btn--glass btn--lg btn--hero" href="#ruang">
+        <span>Cari Ruang</span>
+        <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+      </a>
+
+      <p class="availability">
+        <span class="availability__pulse" aria-hidden="true"></span>
+        <span><strong>18 ruang</strong> tersedia sekarang</span>
+        <span class="availability__divider" aria-hidden="true"></span>
+        <span class="availability__muted">Diperbarui langsung</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="stats" aria-label="Statistik layanan Ruang">
+    <div class="container stats__grid" data-stagger>
+      <div class="stat reveal">
+        <span class="stat__value" data-count="84">84</span>
+        <span class="stat__label">Ruang aktif</span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat__value" data-count="12">12</span>
+        <span class="stat__label">Gedung terhubung</span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat__value" data-count="2480">2.480</span>
+        <span class="stat__label">Reservasi bulan ini</span>
+      </div>
+      <div class="stat stat--accent reveal">
+        <span class="stat__value" data-count="0">0</span>
+        <span class="stat__label">Benturan jadwal</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="about section" id="tentang">
+    <div class="container about__grid">
+      <div class="about__copy reveal">
+        <p class="eyebrow">Tentang Ruang</p>
+        <h2 class="display">Bukan sekadar ruang kosong. <em>Ini tempat ide menemukan bentuknya.</em></h2>
+        <p class="body-copy">
+          Ruang menyatukan jadwal, kapasitas, dan fasilitas seluruh ruang kampus
+          dalam satu portal. Dibuat untuk mahasiswa, dosen, dan pengelola yang
+          ingin lebih banyak waktu untuk berkarya, bukan mengurus antrean.
+        </p>
+        <p class="body-copy">
+          Dari sudut tenang di perpustakaan sampai aula serbaguna, setiap ruang
+          punya cerita dan waktu terbaiknya.
+        </p>
+
+        <ul class="mini-list">
+          <li><span class="mini-list__check"><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg></span>Ketersediaan real-time</li>
+          <li><span class="mini-list__check"><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg></span>Konfirmasi tanpa antre</li>
+          <li><span class="mini-list__check"><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg></span>Jadwal bebas benturan</li>
+          <li><span class="mini-list__check"><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg></span>Satu pintu untuk semua</li>
+        </ul>
+
+        <a class="text-link" href="#cara-kerja">Kenali cara kerja <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
+      </div>
+
+      <div class="about__visual reveal">
+        <figure class="about__main">
+          <img src="assets/img/classroom.jpg?v=20261023k1" alt="Mahasiswa mengangkat tangan dalam diskusi di ruang kuliah kampus" width="1200" height="675" loading="lazy" decoding="async">
+        </figure>
+        <figure class="about__small">
+          <img src="assets/img/library.jpg" alt="Rak buku perpustakaan dengan koleksi tebal berwarna hangat" width="1200" height="800" loading="lazy" decoding="async">
+        </figure>
+
+        <div class="about__badge">
+          <span class="about__badge-icon"><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg></span>
+          <span><strong>12 fakultas</strong><small>sudah terhubung</small></span>
+        </div>
+
+        <div class="about__card">
+          <div class="about__card-top">
+            <span class="status status--free"><span></span>Tersedia</span>
+            <span class="about__card-time">14:00–16:00</span>
+          </div>
+          <p class="about__card-name">Aria</p>
+          <p class="about__card-meta">Gedung A · Lt. 3 · 6 orang</p>
+          <a class="about__card-link" href="reservasi.html?ruang=aria">Pesan ruang <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rooms section" id="ruang">
+    <div class="container">
+      <div class="rooms__head">
+        <div class="section-head reveal">
+          <p class="eyebrow">Pilih ruangmu</p>
+          <h2 class="display">Setiap cara belajar, <em>punya ruangnya.</em></h2>
+          <p class="body-copy">
+            Filter sesuai kebutuhan, lihat ketersediaan hari ini, lalu pesan
+            tanpa perlu bertanya ke siapa pun.
+          </p>
+        </div>
+
+        <div class="filters reveal" role="group" aria-label="Filter jenis ruang">
+          <button class="filter is-active" type="button" data-filter="semua" aria-pressed="true">Semua <span>6</span></button>
+          <button class="filter" type="button" data-filter="diskusi" aria-pressed="false">Diskusi <span>2</span></button>
+          <button class="filter" type="button" data-filter="fokus" aria-pressed="false">Fokus <span>1</span></button>
+          <button class="filter" type="button" data-filter="bimbingan" aria-pressed="false">Bimbingan <span>1</span></button>
+          <button class="filter" type="button" data-filter="kreatif" aria-pressed="false">Kreatif <span>1</span></button>
+          <button class="filter" type="button" data-filter="acara" aria-pressed="false">Acara <span>1</span></button>
+        </div>
+      </div>
+
+      <div class="rooms__grid" data-stagger>
+        <article class="room-card reveal" data-category="diskusi">
+          <div class="room-card__media">
+            <img src="assets/img/study.jpg" alt="Ruang diskusi Aria dengan jendela lebar dan meja panjang" width="1200" height="801" loading="lazy" decoding="async">
+            <span class="status status--free"><span></span>Tersedia</span>
+            <span class="room-card__type">Diskusi</span>
+          </div>
+          <div class="room-card__body">
+            <div class="room-card__top">
+              <div>
+                <p class="room-card__place">Gedung A · Lt. 3</p>
+                <h3>Aria</h3>
+              </div>
+              <span class="room-card__cap"><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>6</span>
+            </div>
+            <p class="room-card__desc">Meja bundar, layar 55 inci, dan papan tulis untuk diskusi kelompok.</p>
+            <div class="room-card__tags">
+              <span><svg class="icon" aria-hidden="true"><use href="#i-wifi"></use></svg>Wi-Fi</span>
+              <span><svg class="icon" aria-hidden="true"><use href="#i-monitor"></use></svg>Layar</span>
+              <span><svg class="icon" aria-hidden="true"><use href="#i-board"></use></svg>Papan tulis</span>
+            </div>
+            <div class="room-card__foot">
+              <span class="room-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>14:00–16:00</span>
+              <a class="round-link" href="reservasi.html?ruang=aria" aria-label="Pesan Ruang Aria"><svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="room-card reveal" data-category="diskusi">
+          <div class="room-card__media">
+            <img src="assets/img/collab.jpg" alt="Mahasiswa berdiskusi bersama di meja kolaborasi Nusa" width="1200" height="787" loading="lazy" decoding="async">
+            <span class="status status--free"><span></span>Tersedia</span>
+            <span class="room-card__type">Kolaborasi</span>
+          </div>
+          <div class="room-card__body">
+            <div class="room-card__top">
+              <div>
+                <p class="room-card__place">Gedung C · Lt. 2</p>
+                <h3>Nusa</h3>
+              </div>
+              <span class="room-card__cap"><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>12</span>
+            </div>
+            <p class="room-card__desc">Meja modular dan area presentasi untuk kerja tim lintas disiplin.</p>
+            <div class="room-card__tags">
+              <span><svg class="icon" aria-hidden="true"><use href="#i-wifi"></use></svg>Wi-Fi</span>
+              <span><svg class="icon" aria-hidden="true"><use href="#i-monitor"></use></svg>Layar</span>
+              <span><svg class="icon" aria-hidden="true"><use href="#i-board"></use></svg>Papan tulis</span>
+            </div>
+            <div class="room-card__foot">
+              <span class="room-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>16:00–18:00</span>
+              <a class="round-link" href="reservasi.html?ruang=nusa" aria-label="Pesan Ruang Nusa"><svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="room-card reveal" data-category="fokus">
+          <div class="room-card__media">
+            <img src="assets/img/workspace.jpg" alt="Meja fokus Sunyi dengan komputer dan pemandangan kota" width="1200" height="800" loading="lazy" decoding="async">
+            <span class="status status--limited"><span></span>Terbatas</span>
+            <span class="room-card__type">Fokus</span>
+          </div>
+          <div class="room-card__body">
+            <div class="room-card__top">
+              <div>
+                <p class="room-card__place">Perpustakaan Pusat · Lt. 4</p>
+                <h3>Sunyi</h3>
+              </div>
+              <span class="room-card__cap"><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>1</span>
+            </div>
+            <p class="room-card__desc">Kubikel tenang dengan meja ergonomis dan lampu baca personal.</p>
+            <div class="room-card__tags">
+              <span><svg class="icon" aria-hidden="true"><use href="#i-wifi"></use></svg>Wi-Fi</span>
+              <span><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>Tenang</span>
+              <span><svg class="icon" aria-hidden="true"><use href="#i-monitor"></use></svg>Monitor</span>
+            </div>
+            <div class="room-card__foot">
+              <span class="room-card__time room-card__time--limited"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>Sisa 4 slot hari ini</span>
+              <a class="round-link" href="reservasi.html?ruang=sunyi" aria-label="Pesan Ruang Sunyi"><svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="room-card reveal" data-category="bimbingan">
+          <div class="room-card__media">
+            <img src="assets/img/meeting.jpg" alt="Ruang bimbingan Cakra dengan partisi kaca dan pencahayaan hangat" width="1200" height="801" loading="lazy" decoding="async">
+            <span class="status status--free"><span></span>Tersedia</span>
+            <span class="room-card__type">Bimbingan</span>
+          </div>
+          <div class="room-card__body">
+            <div class="room-card__top">
+              <div>
+                <p class="room-card__place">Gedung B · Lt. 1</p>
+                <h3>Cakra</h3>
+              </div>
+              <span class="room-card__cap"><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>4</span>
+            </div>
+            <p class="room-card__desc">Ruang privat untuk bimbingan skripsi dan konsultasi akademik.</p>
+            <div class="room-card__tags">
+              <span><svg class="icon" aria-hidden="true"><use href="#i-wifi"></use></svg>Wi-Fi</span>
+              <span><svg class="icon" aria-hidden="true"><use href="#i-monitor"></use></svg>Layar</span>
+              <span><svg class="icon" aria-hidden="true"><use href="#i-board"></use></svg>Papan tulis</span>
+            </div>
+            <div class="room-card__foot">
+              <span class="room-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>14:00–16:00</span>
+              <a class="round-link" href="reservasi.html?ruang=cakra" aria-label="Pesan Ruang Cakra"><svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="room-card reveal" data-category="kreatif">
+          <div class="room-card__media">
+            <img src="assets/img/lounge.jpg" alt="Studio kreatif Loka dengan sofa, meja kerja, dan cahaya alami" width="1200" height="800" loading="lazy" decoding="async">
+            <span class="status status--free"><span></span>Tersedia</span>
+            <span class="room-card__type">Kreatif</span>
+          </div>
+          <div class="room-card__body">
+            <div class="room-card__top">
+              <div>
+                <p class="room-card__place">Gedung D · Lt. 5</p>
+                <h3>Loka</h3>
+              </div>
+              <span class="room-card__cap"><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>8</span>
+            </div>
+            <p class="room-card__desc">Area fleksibel untuk riset visual, rekaman, dan kerja kreatif.</p>
+            <div class="room-card__tags">
+              <span><svg class="icon" aria-hidden="true"><use href="#i-wifi"></use></svg>Wi-Fi</span>
+              <span><svg class="icon" aria-hidden="true"><use href="#i-monitor"></use></svg>Audio</span>
+              <span><svg class="icon" aria-hidden="true"><use href="#i-board"></use></svg>Papan ide</span>
+            </div>
+            <div class="room-card__foot">
+              <span class="room-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>16:00–18:00</span>
+              <a class="round-link" href="reservasi.html?ruang=loka" aria-label="Pesan Ruang Loka"><svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="room-card reveal" data-category="acara">
+          <div class="room-card__media">
+            <img src="assets/img/auditorium.jpg" alt="Aula serbaguna Sabha dengan deretan kursi dan panggung" width="1200" height="800" loading="lazy" decoding="async">
+            <span class="status status--free"><span></span>Tersedia</span>
+            <span class="room-card__type">Acara</span>
+          </div>
+          <div class="room-card__body">
+            <div class="room-card__top">
+              <div>
+                <p class="room-card__place">Gedung Utama · Lt. 1</p>
+                <h3>Sabha</h3>
+              </div>
+              <span class="room-card__cap"><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>120</span>
+            </div>
+            <p class="room-card__desc">Aula serbaguna dengan tata suara dan proyektor untuk acara kampus.</p>
+            <div class="room-card__tags">
+              <span><svg class="icon" aria-hidden="true"><use href="#i-wifi"></use></svg>Wi-Fi</span>
+              <span><svg class="icon" aria-hidden="true"><use href="#i-monitor"></use></svg>Proyektor</span>
+              <span><svg class="icon" aria-hidden="true"><use href="#i-board"></use></svg>Panggung</span>
+            </div>
+            <div class="room-card__foot">
+              <span class="room-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>09:00–12:00</span>
+              <a class="round-link" href="reservasi.html?ruang=sabha" aria-label="Pesan Aula Sabha"><svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg></a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="rooms__foot reveal">
+        <p aria-live="polite">Menampilkan <strong id="roomCount">6</strong> dari 84 ruang.</p>
+        <a class="text-link text-link--dark" href="#jadwal">Lihat jadwal lengkap <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="process section" id="cara-kerja">
+    <div class="container">
+      <div class="section-head section-head--center reveal">
+        <p class="eyebrow">Cara kerja</p>
+        <h2 class="display">Tiga langkah, <em>ruang siap dipakai.</em></h2>
+        <p class="body-copy">
+          Tanpa formulir berlapis, tanpa menunggu balasan chat. Semua alur
+          reservasi ada di satu tempat.
+        </p>
+      </div>
+
+      <ol class="steps" data-stagger>
+        <li class="step reveal">
+          <div class="step__top">
+            <span class="step__icon"><svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg></span>
+            <span class="step__num">01</span>
+          </div>
+          <h3>Temukan ruang</h3>
+          <p>Pilih tanggal, jam, kapasitas, dan fasilitas. Lihat hanya ruang yang benar-benar tersedia.</p>
+        </li>
+        <li class="step reveal">
+          <div class="step__top">
+            <span class="step__icon"><svg class="icon" aria-hidden="true"><use href="#i-calendar"></use></svg></span>
+            <span class="step__num">02</span>
+          </div>
+          <h3>Ajukan reservasi</h3>
+          <p>Cek detail, tambahkan agenda, lalu kirim. Konfirmasi muncul langsung di portal.</p>
+        </li>
+        <li class="step reveal">
+          <div class="step__top">
+            <span class="step__icon"><svg class="icon" aria-hidden="true"><use href="#i-key"></use></svg></span>
+            <span class="step__num">03</span>
+          </div>
+          <h3>Masuk dan gunakan</h3>
+          <p>Tunjukkan kode reservasi di pintu, dan ruang siap untuk ide berikutnya.</p>
+        </li>
+      </ol>
+
+      <div class="process__cta reveal">
+        <a class="btn btn--light" href="#ruang">Mulai cari ruang <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
+        <p>Masuk dengan akun kampus, tanpa registrasi ulang.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="live section" id="jadwal">
+    <div class="container live__grid">
+      <div class="live__copy reveal">
+        <p class="eyebrow">Jadwal langsung</p>
+        <h2 class="display">Ketersediaan yang <em>selalu jujur.</em></h2>
+        <p class="body-copy">
+          Tidak ada lagi ruang yang “katanya kosong”. Setiap perubahan jadwal
+          langsung terlihat, dan setiap reservasi terkunci otomatis.
+        </p>
+
+        <ul class="feature-list">
+          <li><span><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg></span>Sinkron dengan jadwal akademik</li>
+          <li><span><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg></span>Konfirmasi instan, tanpa chat manual</li>
+          <li><span><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg></span>Notifikasi saat jadwal berubah</li>
+        </ul>
+
+        <a class="btn btn--ghost-light" href="#ruang">Coba cari ruang <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
+      </div>
+
+      <div class="live__visual reveal">
+        <div class="board">
+          <div class="board__head">
+            <div class="board__live"><span class="board__dot"></span>Langsung</div>
+            <div class="board__context">
+              <strong>Lintas gedung</strong>
+              <span id="boardDate">Jumat, 23 Oktober · WIB</span>
+            </div>
+            <button class="board__refresh" id="boardRefresh" type="button" aria-label="Perbarui ketersediaan" title="Perbarui ketersediaan">
+              <svg class="icon" aria-hidden="true"><use href="#i-refresh"></use></svg>
+            </button>
+          </div>
+
+          <div class="board__scroll" role="img" tabindex="0" aria-label="Contoh ketersediaan lima ruang pilihan hari ini. Aria tersedia pukul 10 sampai 12 dan 14 sampai 16, sedangkan pukul 16 sampai 18 ditandai sebagai pilihanmu. Nusa tersedia pukul 08, 11 sampai 12, dan 15 sampai 18. Sunyi tersedia pukul 12 sampai 16. Cakra tersedia pukul 08 sampai 10 dan 14 sampai 16. Loka tersedia pukul 10 sampai 13 dan 16 sampai 18.">
+            <div class="board__grid">
+              <div class="board__corner">Ruang</div>
+              <span class="board__time">08</span>
+              <span class="board__time">09</span>
+              <span class="board__time">10</span>
+              <span class="board__time">11</span>
+              <span class="board__time">12</span>
+              <span class="board__time">13</span>
+              <span class="board__time">14</span>
+              <span class="board__time">15</span>
+              <span class="board__time">16</span>
+              <span class="board__time">17</span>
+
+              <div class="board__room"><strong>Aria</strong><span>6 orang</span></div>
+              <span class="board__slot board__slot--busy" title="08.00 terisi"></span>
+              <span class="board__slot board__slot--busy" title="09.00 terisi"></span>
+              <span class="board__slot board__slot--free" title="10.00 tersedia"></span>
+              <span class="board__slot board__slot--free" title="11.00 tersedia"></span>
+              <span class="board__slot board__slot--busy" title="12.00 terisi"></span>
+              <span class="board__slot board__slot--busy" title="13.00 terisi"></span>
+              <span class="board__slot board__slot--free" title="14.00 tersedia"></span>
+              <span class="board__slot board__slot--free" title="15.00 tersedia"></span>
+              <span class="board__slot board__slot--picked board__slot--wide">16–18</span>
+
+              <div class="board__room"><strong>Nusa</strong><span>12 orang</span></div>
+              <span class="board__slot board__slot--free" title="08.00 tersedia"></span>
+              <span class="board__slot board__slot--busy" title="09.00 terisi"></span>
+              <span class="board__slot board__slot--busy" title="10.00 terisi"></span>
+              <span class="board__slot board__slot--free" title="11.00 tersedia"></span>
+              <span class="board__slot board__slot--free" title="12.00 tersedia"></span>
+              <span class="board__slot board__slot--busy" title="13.00 terisi"></span>
+              <span class="board__slot board__slot--busy" title="14.00 terisi"></span>
+              <span class="board__slot board__slot--free" title="15.00 tersedia"></span>
+              <span class="board__slot board__slot--free" title="16.00 tersedia"></span>
+              <span class="board__slot board__slot--free" title="17.00 tersedia"></span>
+
+              <div class="board__room"><strong>Sunyi</strong><span>1 orang</span></div>
+              <span class="board__slot board__slot--busy" title="08.00 terisi"></span>
+              <span class="board__slot board__slot--busy" title="09.00 terisi"></span>
+              <span class="board__slot board__slot--busy" title="10.00 terisi"></span>
+              <span class="board__slot board__slot--busy" title="11.00 terisi"></span>
+              <span class="board__slot board__slot--free" title="12.00 tersedia"></span>
+              <span class="board__slot board__slot--free" title="13.00 tersedia"></span>
+              <span class="board__slot board__slot--free" title="14.00 tersedia"></span>
+              <span class="board__slot board__slot--free" title="15.00 tersedia"></span>
+              <span class="board__slot board__slot--busy" title="16.00 terisi"></span>
+              <span class="board__slot board__slot--busy" title="17.00 terisi"></span>
+
+              <div class="board__room"><strong>Cakra</strong><span>4 orang</span></div>
+              <span class="board__slot board__slot--free" title="08.00 tersedia"></span>
+              <span class="board__slot board__slot--free" title="09.00 tersedia"></span>
+              <span class="board__slot board__slot--busy" title="10.00 terisi"></span>
+              <span class="board__slot board__slot--busy" title="11.00 terisi"></span>
+              <span class="board__slot board__slot--busy" title="12.00 terisi"></span>
+              <span class="board__slot board__slot--busy" title="13.00 terisi"></span>
+              <span class="board__slot board__slot--free" title="14.00 tersedia"></span>
+              <span class="board__slot board__slot--free" title="15.00 tersedia"></span>
+              <span class="board__slot board__slot--busy" title="16.00 terisi"></span>
+              <span class="board__slot board__slot--busy" title="17.00 terisi"></span>
+
+              <div class="board__room"><strong>Loka</strong><span>8 orang</span></div>
+              <span class="board__slot board__slot--busy" title="08.00 terisi"></span>
+              <span class="board__slot board__slot--busy" title="09.00 terisi"></span>
+              <span class="board__slot board__slot--free" title="10.00 tersedia"></span>
+              <span class="board__slot board__slot--free" title="11.00 tersedia"></span>
+              <span class="board__slot board__slot--free" title="12.00 tersedia"></span>
+              <span class="board__slot board__slot--busy" title="13.00 terisi"></span>
+              <span class="board__slot board__slot--busy" title="14.00 terisi"></span>
+              <span class="board__slot board__slot--busy" title="15.00 terisi"></span>
+              <span class="board__slot board__slot--free" title="16.00 tersedia"></span>
+              <span class="board__slot board__slot--free" title="17.00 tersedia"></span>
+            </div>
+          </div>
+
+          <div class="board__foot">
+            <div class="board__legend">
+              <span><i class="legend-dot legend-dot--free"></i>Tersedia</span>
+              <span><i class="legend-dot legend-dot--busy"></i>Terisi</span>
+              <span><i class="legend-dot legend-dot--picked"></i>Pilihanmu</span>
+            </div>
+            <span class="board__updated" id="boardUpdated" aria-live="polite">Diperbarui 12 detik lalu</span>
+          </div>
+        </div>
+
+        <p class="board__caption">Contoh tampilan ketersediaan lima ruang pilihan. <span class="board__hint">Geser ke samping untuk melihat semua jam.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials section">
+    <div class="container">
+      <div class="testimonials__head">
+        <div class="section-head reveal">
+          <p class="eyebrow">Cerita dari kampus</p>
+          <h2 class="display">Kata mereka yang sudah <em>menemukan ruangnya.</em></h2>
+        </div>
+        <div class="rating reveal">
+          <span class="rating__stars" role="img" aria-label="5 dari 5 bintang"><span aria-hidden="true">★</span><span aria-hidden="true">★</span><span aria-hidden="true">★</span><span aria-hidden="true">★</span><span aria-hidden="true">★</span></span>
+          <span>4.9/5 dari 300+ ulasan</span>
+        </div>
+      </div>
+
+      <div class="quotes" data-stagger>
+        <article class="quote reveal">
+          <span class="quote__mark" aria-hidden="true">“</span>
+          <p>Dulu saya harus tanya ke tiga grup chat cuma buat tahu ruang kosong. Sekarang semua jadwal kelihatan, tinggal pilih.</p>
+          <div class="quote__author">
+            <span class="avatar">NP</span>
+            <div><strong>Nadia Putri</strong><span>Mahasiswa DKV</span></div>
+          </div>
+        </article>
+
+        <article class="quote reveal">
+          <span class="quote__mark" aria-hidden="true">“</span>
+          <p>Sebagai dosen pembimbing, saya sering mengatur bimbingan mendadak. Ruang membuat konfirmasi dan perubahan jadi jauh lebih tenang.</p>
+          <div class="quote__author">
+            <span class="avatar avatar--gold">RM</span>
+            <div><strong>Raka Mahendra</strong><span>Dosen Sistem Informasi</span></div>
+          </div>
+        </article>
+
+        <article class="quote reveal">
+          <span class="quote__mark" aria-hidden="true">“</span>
+          <p>Pengelolaan ruang jadi lebih transparan. Kami bisa melihat utilisasi tanpa rekap manual setiap minggu.</p>
+          <div class="quote__author">
+            <span class="avatar avatar--sand">AL</span>
+            <div><strong>Ayu Larasati</strong><span>Pengelola Fasilitas</span></div>
+          </div>
+        </article>
+      </div>
+
+      <div class="testimonials__foot reveal">
+        <span class="live-mark"><i></i>2.400+ reservasi bulan ini</span>
+        <span>Dipilih oleh mahasiswa, dosen, dan pengelola dari 12 fakultas.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq section" id="faq">
+    <div class="container faq__grid">
+      <div class="faq__intro reveal">
+        <p class="eyebrow">Tanya jawab</p>
+        <h2 class="display">Hal yang sering <em>ditanyakan.</em></h2>
+        <p class="body-copy">
+          Belum menemukan jawaban? Tim Ruang siap membantu di hari kerja,
+          08.00–17.00 WIB.
+        </p>
+
+        <a class="contact-card" href="mailto:halo@ruang.kampus.ac.id">
+          <span class="contact-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-mail"></use></svg></span>
+          <span class="contact-card__text"><strong>Tanya tim Ruang</strong><small>halo@ruang.kampus.ac.id</small></span>
+          <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg>
+        </a>
+      </div>
+
+      <div class="faq__list reveal">
+        <details class="faq__item" name="faq" open>
+          <summary><span>Siapa yang dapat menggunakan Ruang?</span><span class="faq__icon" aria-hidden="true"></span></summary>
+          <div class="faq__answer"><p>Seluruh mahasiswa aktif, dosen, dan staf kampus. Masuk menggunakan akun kampus (SSO) tanpa perlu registrasi ulang.</p></div>
+        </details>
+        <details class="faq__item" name="faq">
+          <summary><span>Bagaimana Ruang mencegah benturan jadwal?</span><span class="faq__icon" aria-hidden="true"></span></summary>
+          <div class="faq__answer"><p>Setiap slot terkunci otomatis saat reservasi dikonfirmasi. Sistem memeriksa benturan di seluruh gedung sebelum kamu menyelesaikan pemesanan.</p></div>
+        </details>
+        <details class="faq__item" name="faq">
+          <summary><span>Berapa lama durasi pemesanan yang diperbolehkan?</span><span class="faq__icon" aria-hidden="true"></span></summary>
+          <div class="faq__answer"><p>Satu reservasi dapat memesan hingga 4 jam. Untuk acara besar di aula, ajukan minimal 3 hari sebelumnya melalui pengelola fasilitas.</p></div>
+        </details>
+        <details class="faq__item" name="faq">
+          <summary><span>Bisakah saya mengubah atau membatalkan reservasi?</span><span class="faq__icon" aria-hidden="true"></span></summary>
+          <div class="faq__answer"><p>Bisa, hingga 2 jam sebelum jadwal dimulai. Perubahan akan langsung memperbarui ketersediaan untuk pengguna lain.</p></div>
+        </details>
+        <details class="faq__item" name="faq">
+          <summary><span>Apakah ruang mendukung kelas hybrid?</span><span class="faq__icon" aria-hidden="true"></span></summary>
+          <div class="faq__answer"><p>Ruang tertentu dilengkapi kamera, mikrofon, dan layar untuk kelas hybrid. Cari label “Hybrid” pada filter fasilitas saat memilih ruang.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta section" id="reservasi">
+    <div class="container">
+      <div class="cta__panel reveal">
+        <div class="cta__stars" id="ctaStars" aria-hidden="true"></div>
+        <div class="cta__arch" aria-hidden="true"></div>
+        <div class="cta__content">
+          <p class="eyebrow">Siap mulai?</p>
+          <h2 class="display display--xl">Ruang berikutnya, <em>untuk ide berikutnya.</em></h2>
+          <p class="body-copy">
+            Cek ketersediaan hari ini dan pesan ruang yang paling pas. Tanpa
+            antre, tanpa benturan.
+          </p>
+          <div class="cta__actions">
+            <a class="btn btn--light btn--lg" href="#ruang">Pilih Ruang <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
+            <a class="btn btn--ghost-light btn--lg" href="#jadwal">Lihat Jadwal</a>
+          </div>
+          <p class="availability">
+            <span class="availability__pulse" aria-hidden="true"></span>
+            <span><strong>18 ruang</strong> tersedia sekarang</span>
+            <span class="availability__divider" aria-hidden="true"></span>
+            <span class="availability__muted">Diperbarui langsung</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <footer class="footer" id="kontak">
+    <div class="footer__masthead reveal">
+      <div class="footer__scene" aria-hidden="true">
+        <img class="footer__landscape" src="assets/img/footer-dusk.svg?v=20261023p" alt="" width="1600" height="420">
+      </div>
+      <div class="container footer__masthead-inner">
+        <p class="eyebrow">Setelah kelas usai</p>
+        <p class="footer__statement">Kampus tetap hidup untuk ide yang <em>belum selesai.</em></p>
+      </div>
+    </div>
+
+    <div class="container footer__main">
+      <div class="footer__grid" data-stagger>
+        <div class="footer__brand reveal">
+          <a class="brand" href="#beranda" aria-label="Ruang, kembali ke beranda">Ruang<span class="brand__mark">®</span></a>
+          <p>Pesan ruang kampus tanpa ribet. Satu portal untuk semua ruang di kampus.</p>
+          <div class="footer__status"><span></span>Semua sistem normal</div>
+          <div class="socials">
+            <a href="#" aria-label="Instagram Ruang"><svg class="icon" aria-hidden="true"><use href="#i-instagram"></use></svg></a>
+            <a href="#" aria-label="LinkedIn Ruang"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"></use></svg></a>
+            <a href="#" aria-label="YouTube Ruang"><svg class="icon" aria-hidden="true"><use href="#i-youtube"></use></svg></a>
+          </div>
+        </div>
+
+        <nav class="footer__col reveal" aria-label="Jelajahi">
+          <h3>Jelajahi</h3>
+          <a href="#beranda">Beranda</a>
+          <a href="#tentang">Tentang</a>
+          <a href="#ruang">Ruang</a>
+          <a href="#jadwal">Jadwal</a>
+        </nav>
+
+        <nav class="footer__col reveal" aria-label="Bantuan">
+          <h3>Bantuan</h3>
+          <a href="#faq">Pertanyaan umum</a>
+          <a href="#cara-kerja">Panduan reservasi</a>
+          <a href="mailto:halo@ruang.kampus.ac.id">Hubungi kami</a>
+        </nav>
+
+        <div class="footer__col footer__contact reveal">
+          <h3>Kontak</h3>
+          <a href="mailto:halo@ruang.kampus.ac.id">halo@ruang.kampus.ac.id</a>
+          <a href="tel:+6281234567890">+62 812 3456 7890</a>
+          <p>Gedung Utama, Lt. 1<br>Kampus Hybrid, Indonesia</p>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p>© 2026 Ruang. Sistem Reservasi Ruang Kampus.</p>
+        <a class="footer__top" href="#beranda">Kembali ke atas <svg class="icon" aria-hidden="true"><use href="#i-arrow-up"></use></svg></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js?v=20261023p"></script>
+</body>
+</html>
