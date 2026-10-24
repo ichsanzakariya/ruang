@@ -11,7 +11,7 @@
   <link rel="preload" href="/assets/fonts/InstrumentSerif-italic-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/PlusJakartaSans-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/styles.css?v=20261024f">
-  <link rel="stylesheet" href="/reservasi.css?v=20261023z20">
+  <link rel="stylesheet" href="/reservasi.css?v=20261024g">
   <noscript>
     <style>
       .booking-layout,
@@ -343,54 +343,6 @@
           </aside>
         </form>
 
-        <section class="success" id="success" aria-labelledby="successTitle" hidden>
-          <div class="success__badge" aria-hidden="true">
-            <svg class="icon"><use href="#i-check"></use></svg>
-          </div>
-          <p class="eyebrow">Reservasi terkonfirmasi</p>
-          <h2 id="successTitle" tabindex="-1">Sampai jumpa di <span id="successRoom">Aria</span>.</h2>
-          <p class="success__lede">
-            Tunjukkan kode ini di pintu. Konfirmasi juga dikirim ke email kampusmu.
-          </p>
-
-          <div class="success__code">
-            <span>Kode reservasi</span>
-            <strong id="successCode">RNG-0000</strong>
-          </div>
-
-          <dl class="success__details">
-            <div>
-              <dt>Ruang</dt>
-              <dd id="successPlace">Aria · Gedung A · Lt. 3</dd>
-            </div>
-            <div>
-              <dt>Tanggal</dt>
-              <dd id="successDate">Jumat, 23 Oktober 2026</dd>
-            </div>
-            <div>
-              <dt>Waktu</dt>
-              <dd id="successTime">14.00–16.00 WIB</dd>
-            </div>
-            <div>
-              <dt>Peserta</dt>
-              <dd id="successPeople">1 orang</dd>
-            </div>
-            <div>
-              <dt>Pemesan</dt>
-              <dd id="successName">Nama pemesan</dd>
-            </div>
-            <div>
-              <dt>Agenda</dt>
-              <dd id="successAgenda">Agenda kegiatan</dd>
-            </div>
-          </dl>
-
-          <div class="success__actions">
-            <a class="btn btn--ink" href="/">Kembali ke beranda</a>
-            <a class="btn btn--outline" href="/jadwal">Lihat jadwal langsung</a>
-            <button class="success__again" type="button" id="againBtn">Buat reservasi lain</button>
-          </div>
-        </section>
       </div>
     </div>
 
@@ -455,7 +407,56 @@
     </div>
   </footer>
 
+  <dialog class="success" id="success" aria-modal="true" aria-labelledby="successTitle" aria-describedby="successLede">
+    <div class="success__badge" aria-hidden="true">
+      <svg class="success__check" viewBox="0 0 24 24"><path d="m4 12.5 4.5 4.5L20 6.5"/></svg>
+    </div>
+    <p class="eyebrow">Reservasi terkonfirmasi</p>
+    <h2 id="successTitle" tabindex="-1">Sampai jumpa di <span id="successRoom">Aria</span>.</h2>
+    <p class="success__lede" id="successLede">
+      Tunjukkan kode ini di pintu. Konfirmasi juga dikirim ke email kampusmu.
+    </p>
+
+    <div class="success__code">
+      <span>Kode reservasi</span>
+      <strong id="successCode">RNG-0000</strong>
+    </div>
+
+    <dl class="success__details">
+      <div>
+        <dt>Ruang</dt>
+        <dd id="successPlace">Aria · Gedung A · Lt. 3</dd>
+      </div>
+      <div>
+        <dt>Tanggal</dt>
+        <dd id="successDate">Jumat, 23 Oktober 2026</dd>
+      </div>
+      <div>
+        <dt>Waktu</dt>
+        <dd id="successTime">14.00–16.00 WIB</dd>
+      </div>
+      <div>
+        <dt>Peserta</dt>
+        <dd id="successPeople">1 orang</dd>
+      </div>
+      <div>
+        <dt>Pemesan</dt>
+        <dd id="successName">Nama pemesan</dd>
+      </div>
+      <div>
+        <dt>Agenda</dt>
+        <dd id="successAgenda">Agenda kegiatan</dd>
+      </div>
+    </dl>
+
+    <div class="success__actions">
+      <a class="btn btn--ink" href="/">Kembali ke beranda</a>
+      <a class="btn btn--outline" href="/jadwal">Lihat jadwal langsung</a>
+      <button class="success__again" type="button" id="againBtn">Buat reservasi lain</button>
+    </div>
+  </dialog>
+
   <script src="/script.js?v=20261024d"></script>
-  <script src="/reservasi.js?v=20261024d"></script>
+  <script src="/reservasi.js?v=20261024e"></script>
 </body>
 </html>

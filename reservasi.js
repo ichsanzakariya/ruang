@@ -129,8 +129,6 @@
     slotHint: $("#slotHint"),
     dateGrid: $("#dateGrid"),
     form: $("#bookingForm"),
-    preview: $("#roomPreview"),
-    prep: $(".prep"),
     alert: $("#formAlert"),
     peserta: $("#peserta"),
     capacityHint: $("#capacityHint"),
@@ -218,7 +216,8 @@
   };
 
   let isBooked = false;
-  let successFocusTimer = 0;
+  let successCloseTimer = 0;
+  let isSuccessOpen = false;
 
   const bookedSlots = new Set();
 
@@ -712,6 +711,95 @@
     return `RNG-${code}`;
   };
 
+  const writeSuccessCode = (code) => {
+    els.successCode.textContent = "";
+
+    Array.from(code).forEach((character, index) => {
+      const glyph = document.createElement("span");
+      glyph.textContent = character;
+      glyph.style.setProperty("--i", String(index));
+      els.successCode.appendChild(glyph);
+    });
+  };
+
+  const openSuccess = () => {
+    window.clearTimeout(successCloseTimer);
+    isSuccessOpen = true;
+    els.success.classList.remove("is-open", "is-closing");
+
+    if (typeof els.success.showModal === "function") {
+      els.success.showModal();
+    } else {
+      els.success.setAttribute("open", "");
+    }
+
+    /* Paint the closed state first so the entrance has something to animate from. */
+    void els.success.offsetWidth;
+    els.success.scrollTop = 0;
+    els.success.classList.add("is-open");
+    els.successTitle.focus({ preventScroll: true });
+  };
+
+  const resetBooking = () => {
+    isBooked = false;
+    els.form.reset();
+    clearErrors();
+
+    state.start = null;
+    state.duration = 2;
+
+    $$(".duration__btn").forEach((button) => {
+      const active = Number(button.dataset.duration) === 2;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+
+    renderSlots();
+    updateSummary();
+    setHint("Pilih jam mulai untuk melihat ringkasan.", false);
+    document.title = `${ROOMS[slug].name} · Reservasi ruang · Ruang`;
+
+    const activeDate =
+      els.dateGrid.querySelector('.date-chip[aria-pressed="true"]') ||
+      els.dateGrid.querySelector(".date-chip");
+    activeDate?.focus({ preventScroll: true });
+
+    document.getElementById("tanggal").scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      block: "start"
+    });
+  };
+
+  const finishCloseSuccess = () => {
+    successCloseTimer = 0;
+
+    if (typeof els.success.close === "function" && els.success.open) {
+      els.success.close();
+    } else {
+      els.success.removeAttribute("open");
+    }
+
+    els.success.classList.remove("is-open", "is-closing");
+    isSuccessOpen = false;
+
+    resetBooking();
+  };
+
+  const closeSuccess = () => {
+    if (!isSuccessOpen || els.success.classList.contains("is-closing")) return;
+
+    window.clearTimeout(successCloseTimer);
+
+    if (prefersReducedMotion) {
+      finishCloseSuccess();
+      return;
+    }
+
+    els.success.classList.add("is-closing");
+    els.success.classList.remove("is-open");
+    successCloseTimer = window.setTimeout(finishCloseSuccess, 300);
+  };
+
   const confirmBooking = () => {
     if (isBooked) return;
 
@@ -730,27 +818,13 @@
     els.successPeople.textContent = `${people} orang`;
     els.successName.textContent = els.nama.value.trim();
     els.successAgenda.textContent = els.agenda.value.trim();
-    els.successCode.textContent = generateCode();
-
-    els.preview.hidden = true;
-    els.form.hidden = true;
-    els.prep.hidden = true;
-    els.success.hidden = false;
+    writeSuccessCode(generateCode());
 
     document.title = `Reservasi terkonfirmasi · ${room.name} · Ruang`;
     els.summaryNote.textContent = "Reservasi tercatat.";
     els.summaryNote.classList.remove("is-warn");
 
-    els.success.scrollIntoView({
-      behavior: prefersReducedMotion ? "auto" : "smooth",
-      block: "start"
-    });
-
-    window.clearTimeout(successFocusTimer);
-    successFocusTimer = window.setTimeout(
-      () => els.successTitle.focus({ preventScroll: true }),
-      prefersReducedMotion ? 0 : 420
-    );
+    openSuccess();
   };
 
   els.form.addEventListener("submit", (event) => {
@@ -796,50 +870,19 @@
     confirmBooking();
   });
 
-  els.again?.addEventListener("click", () => {
-    els.success.hidden = true;
-    els.preview.hidden = false;
-    els.form.hidden = false;
-    els.prep.hidden = false;
+  els.again?.addEventListener("click", closeSuccess);
 
-    isBooked = false;
-    window.clearTimeout(successFocusTimer);
-    successFocusTimer = 0;
-
-    els.form.reset();
-    clearErrors();
-
-    state.start = null;
-    state.duration = 2;
-
-    $$(".duration__btn").forEach((button) => {
-      const active = Number(button.dataset.duration) === 2;
-      button.classList.toggle("is-active", active);
-      button.setAttribute("aria-pressed", String(active));
-    });
-
-    renderSlots();
-    updateSummary();
-    setHint("Pilih jam mulai untuk melihat ringkasan.", false);
-    document.title = `${ROOMS[slug].name} · Reservasi ruang · Ruang`;
-
-    const activeDate =
-      els.dateGrid.querySelector('.date-chip[aria-pressed="true"]') ||
-      els.dateGrid.querySelector(".date-chip");
-    activeDate?.focus({ preventScroll: true });
-
-    document.getElementById("tanggal").scrollIntoView({
-      behavior: prefersReducedMotion ? "auto" : "smooth",
-      block: "start"
-    });
+  els.success.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    closeSuccess();
   });
 
   $$('a[href="/reservasi/tanggal"]').forEach((link) => {
     link.addEventListener("click", (event) => {
-      if (els.success.hidden) return;
+      if (!isSuccessOpen) return;
 
       event.preventDefault();
-      els.again.click();
+      closeSuccess();
     });
   });
 
