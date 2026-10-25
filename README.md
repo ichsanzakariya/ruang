@@ -53,22 +53,6 @@ Alamat pintasan seperti `/tentang`, `/ruang`, `/jadwal`, `/faq`, `/kontak`, `/re
 
 Foto ruang diambil dari Unsplash. Rincian ruang, fasilitas, dan jadwal sibuk ada di objek `ROOMS` pada bagian atas `reservasi.js`.
 
-## Menjalankan Lokal
-
-Karena halaman memakai tautan absolut seperti `/reservasi` dan `/assets/...`, buka situs lewat server statis, bukan dengan klik dua kali pada berkas HTML. Salah satu caranya:
-
-```bash
-python -m http.server 8000
-```
-
-Lalu buka `http://localhost:8000`. Tanpa rewrites dari Vercel, alamat pintasan seperti `/jadwal` tidak tersedia di server lokal. Gunakan `/index.html` dan `/reservasi.html` saat menguji lokal, atau tambahkan aturan serupa di server yang dipakai.
-
-## Deploy
-
-Setiap push ke branch `main` otomatis dideploy ke produksi lewat integrasi Vercel pada repositori ini. Tidak ada perintah build, jadi Vercel cukup menyajikan berkas statis mengikuti `vercel.json`.
-
-Salah satu hal yang perlu diingat: `vercel.json` memberi header cache satu tahun `immutable` untuk `/styles.css`, `/reservasi.css`, `/script.js`, `/reservasi.js`, dan semua isi `/assets`. Kalau mengubah CSS atau JS, naikkan versi query pada tag `<link>` dan `<script>` di `index.html` dan `reservasi.html`, misalnya `styles.css?v=20261024f`, supaya pengunjung menerima berkas baru.
-
 ## Cara Kerja Singkat
 
 1. **Tanggal.** Jendela tanggal dibangun dari hari ini menurut zona waktu `Asia/Jakarta`, sehingga pergantian hari mengikuti WIB, bukan jam perangkat.
